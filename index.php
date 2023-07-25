@@ -13,7 +13,7 @@ if (isset($_GET['path'])) {
 }
 
 if (isset($path[0])) {
-    $api = $path[0];
+    $api = $path[0];  
 } else {
     echo "caminho não existe";
     die();
@@ -37,5 +37,6 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 include_once 'classes/db.class.php';
 include_once 'api/clientes/clientes.php';
+include_once 'api/carros/carros.php';
 
 ?>

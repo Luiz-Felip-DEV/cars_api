@@ -7,25 +7,6 @@ $person = new functions;
             ''
         ]));
     }
-    if ($acao == 'lista' && $param == '')
-    {
-        $db = DB::connect();
-        $rs = $db->prepare("SELECT * FROM users ORDER BY name");
-        $rs->execute();
-        $obj = $rs->fetchAll(PDO::FETCH_ASSOC);
-        
-        if ($obj)
-        {
-            die($result = $person->createResponse(200, 'Usuarios Encontrados!',[
-                'dados'     => $obj
-            ]));
-    
-        }else{
-            die($result = $person->createResponse(200, 'Não Existe Usuarios Para Retornar!',[
-                ''
-            ]));
-        }
-    }
 
     if ($acao == 'lista' && $param !== '')
     {
@@ -55,6 +36,7 @@ $person = new functions;
                     ''
                 ]));
             }
+            
         $arrParams = explode('#',base64_decode($_GET['hash']));
         
         $db = DB::connect();

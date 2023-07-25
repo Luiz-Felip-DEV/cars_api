@@ -16,6 +16,11 @@
         {
             include_once 'update.php';
         }
+
+        if ($method == 'DELETE')
+        {
+            include_once 'delete.php';
+        }
     }
 
 ?>
