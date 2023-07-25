@@ -13,19 +13,27 @@
     {
         $db = DB::connect();
         $rs = $db->prepare("SELECT * FROM cars ORDER BY id");
-        $rs->execute();
-        $obj = $rs->fetchAll(PDO::FETCH_ASSOC);
-        
-        if ($obj)
-        {
-            die($result = $person->createResponse(200, 'Carros Encontrado com Sucesso!',[
-                'dados'     => $obj
-            ]));
-        }else{
+
+        try {
+            $rs->execute();
+            $obj = $rs->fetchAll(PDO::FETCH_ASSOC);
+
+            if ($obj)
+            {
+                die($result = $person->createResponse(200, 'Carros Encontrado com Sucesso!',[
+                    'dados'     => $obj
+                ]));
+            }else{
+                die($result = $person->createResponse(500, 'Não Existe Carros Para Retornar!',[
+                    ''
+                ]));
+            }
+        }catch (Exception $e) {
             die($result = $person->createResponse(500, 'Não Existe Carros Para Retornar!',[
-                ''
+                'ERROR' => $e->getMessage()
             ]));
         }
+        
     }
 
     if ($acao == 'cars-brand')
@@ -39,19 +47,28 @@
         $modelo = base64_decode($_REQUEST['hash']);
         $db = DB::connect();
         $rs = $db->prepare("SELECT * FROM cars WHERE brand = '{$modelo}' ORDER BY id");
-        $rs->execute();
-        $obj = $rs->fetchAll(PDO::FETCH_ASSOC);
-        
-        if ($obj)
-        {
-            die($result = $person->createResponse(200, 'Carros Encontrados com Sucesso!',[
-                'dados'     => $obj
-            ]));
-        }else{
+
+        try {
+            $rs->execute();
+            $obj = $rs->fetchAll(PDO::FETCH_ASSOC);
+            if ($obj)
+            {
+                die($result = $person->createResponse(200, 'Carros Encontrados com Sucesso!',[
+                    'dados'     => $obj
+                ]));
+            }else{
+                die($result = $person->createResponse(500, 'Carros Não Encontrado!',[
+                    ''
+                ]));
+            }
+
+        }catch (Exception $e) {
+
             die($result = $person->createResponse(500, 'Carros Não Encontrado!',[
-                ''
+                'ERROR' => $e->getMessage()
             ]));
         }
+      
     }
 
 

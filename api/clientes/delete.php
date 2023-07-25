@@ -21,11 +21,17 @@ $person = new functions;
         $hash       = base64_decode($_REQUEST['hash']);
 
         $rs         = $db->prepare("DELETE FROM users WHERE id = '$hash'");
-        $rs->execute();
 
-        die($result = $person->createResponse(200,'Usuario Deletado com Sucesso!' ,[
-            ''
-        ]));
+        try {
+            $rs->execute();
+            die($result = $person->createResponse(200,'Usuario Deletado com Sucesso!' ,[
+                ''
+            ]));
+        } catch (Exception $e) {
+            die($result = $person->createResponse(500,'Erro ao Deletar Usuario!' ,[
+                'ERROR' => $e->getMessage()
+            ]));
+        }
     }
 
 ?>

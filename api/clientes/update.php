@@ -22,11 +22,17 @@ $person = new functions;
         
             $db = DB::connect();
             $rs = $db->prepare("UPDATE users SET name = '$arrParams[1]', last_name = '$arrParams[2]', age = '$arrParams[3]', email = '$arrParams[4]', password = '$arrParams[5]', telefone = '$arrParams[6]' WHERE id = '$arrParams[0]'");
-            $rs->execute();
+            try {
+                $rs->execute();
 
-            die($result = $person->createResponse(200, 'Dados Atualizados com Sucesso!',[
-                        ''
-                    ]));
+                die($result = $person->createResponse(200, 'Dados Atualizados com Sucesso!',[
+                    ''
+                ]));
+            } catch (Exception $e) {
+                die($result = $person->createResponse(500, 'Erro ao Atualizar Dados!',[
+                    'ERROR' => $e->getMessage()
+                ]));
+            }
 
         }
 

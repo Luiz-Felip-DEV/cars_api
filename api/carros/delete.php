@@ -24,14 +24,16 @@
 
         $rs         = $db->prepare("DELETE FROM cars WHERE id = '$hash'");
         // $rs->execute();
-        if ($rs->execute())
-        {
+
+        try {
+            $rs->execute();
+
             die($result = $person->createResponse(200,'Carro Deletado com Sucesso!' ,[
                 ''
             ]));
-        }else {
+        }catch (Exception $e) {
             die($result = $person->createResponse(500,'Erro ao Deletar Carro!' ,[
-                ''
+                'ERROR' => $e->getMessage()
             ]));
         }
 

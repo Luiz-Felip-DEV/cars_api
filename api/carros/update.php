@@ -23,14 +23,14 @@
             $db = DB::connect();
             $rs = $db->prepare("UPDATE cars SET name = '$arrParams[1]',brand = '$arrParams[2]', year = '$arrParams[3]', price = '$arrParams[4]', status = '$arrParams[5]' WHERE id = '$arrParams[0]'");
 
-            if ($rs->execute())
-            {
+            try {
+                $rs->execute();
                 die($result = $person->createResponse(200, 'Dados Atualizados com Sucesso!',[
                     ''
                 ]));
-            }else {
+            }catch (Exception $e) {
                 die($result = $person->createResponse(500, 'Erro ao Atualizar Dados!',[
-                    ''
+                    'ERROR' => $e->getMessage()
                 ]));
             }
 
@@ -49,18 +49,16 @@
             $db = DB::connect();
             $rs = $db->prepare("UPDATE users SET status = '$arrParams[1]' WHERE id = '$arrParams[0]'");
             // $rs->execute();
-
-            if ($rs->execute())
-            {
+            try {
+                $rs->execute();
                 die($result = $person->createResponse(200, 'Dados Atualizados com Sucesso!',[
                     ''
                 ]));
-            } else {
+            } catch (Exception $e) {
                 die($result = $person->createResponse(500, 'Erro ao Atualizar Dados!',[
-                    ''
+                    'ERROR' => $e->getMessage()
                 ]));
             }
-    
 
         }
 ?>

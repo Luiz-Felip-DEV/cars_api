@@ -12,19 +12,27 @@ $person = new functions;
     {
         $db = DB::connect();
         $rs = $db->prepare("SELECT * FROM users WHERE id = {$param}");
-        $rs->execute();
-        $obj = $rs->fetchObject();
-        
-        if ($obj)
-        {
-            die($result = $person->createResponse(200, 'Usuario Encontrado com Sucesso!',[
-                'dados'     => $obj
-            ]));
-        }else{
-            die($result = $person->createResponse(200, 'Não Existe Usuarios Para Retornar!',[
-                ''
+
+        try {
+            $rs->execute();
+            $obj = $rs->fetchObject();
+
+            if ($obj)
+            {
+                die($result = $person->createResponse(200, 'Usuario Encontrado com Sucesso!',[
+                    'dados'     => $obj
+                ]));
+            }else{
+                die($result = $person->createResponse(200, 'Não Existe Usuarios Para Retornar!',[
+                    ''
+                ]));
+            }
+        }catch (Exception $e) {
+            die($result = $person->createResponse(500, 'Não Existe Usuarios Para Retornar!',[
+                'ERROR' => $e->getMessage()
             ]));
         }
+        
     }
 
     if ($acao == 'login')
@@ -41,17 +49,25 @@ $person = new functions;
         
         $db = DB::connect();
         $rs = $db->prepare("SELECT * FROM users WHERE email = '$arrParams[0]' AND password = '$arrParams[1]' ");
-        $rs->execute();
-        $obj = $rs->fetchObject();
-        if ($obj) 
-        {
-            die($result = $person->createResponse(200, 'Usuario Autorizado com Sucesso!',[
-                'dados'     => $obj
-            ]));
-        }else {
+        try {
+            $rs->execute();
+            $obj = $rs->fetchObject();
+
+            if ($obj) 
+            {
+                die($result = $person->createResponse(200, 'Usuario Autorizado com Sucesso!',[
+                    'dados'     => $obj
+                ]));
+            }else {
+                die($result = $person->createResponse(500, 'Dados Inválidos!',[
+                    ''
+                ]));
+            }
+        } catch (Exception $e) {
             die($result = $person->createResponse(500, 'Dados Inválidos!',[
-                ''
+                'ERROR' => $e->getMessage()
             ]));
         }
+
     }
 ?>
