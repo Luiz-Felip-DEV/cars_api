@@ -6,7 +6,10 @@
 
 
     if ($acao == '' && $param == ''){
-        echo json_encode(['ERRO' => 'Caminho não encontrado']);
+        
+        die($result = $person->createResponse(500, 'Caminho não encontrado!',[
+            ''
+        ]));
     }
 
     if ($acao == 'insert')

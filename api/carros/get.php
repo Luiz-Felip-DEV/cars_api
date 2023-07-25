@@ -18,11 +18,11 @@
         
         if ($obj)
         {
-            die($result = $person->createResponse(200, 'Usuario Encontrado com Sucesso!',[
+            die($result = $person->createResponse(200, 'Carros Encontrado com Sucesso!',[
                 'dados'     => $obj
             ]));
         }else{
-            die($result = $person->createResponse(200, 'Não Existe Usuarios Para Retornar!',[
+            die($result = $person->createResponse(500, 'Não Existe Carros Para Retornar!',[
                 ''
             ]));
         }
@@ -44,11 +44,11 @@
         
         if ($obj)
         {
-            die($result = $person->createResponse(200, 'Usuario Encontrado com Sucesso!',[
+            die($result = $person->createResponse(200, 'Carros Encontrados com Sucesso!',[
                 'dados'     => $obj
             ]));
         }else{
-            die($result = $person->createResponse(200, 'Não Existe Usuarios Para Retornar!',[
+            die($result = $person->createResponse(500, 'Carros Não Encontrado!',[
                 ''
             ]));
         }

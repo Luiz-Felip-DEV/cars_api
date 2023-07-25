@@ -18,7 +18,7 @@ $person = new functions;
         }
         
         $db         = DB::connect();
-        $hash       = base64_decode($_POST['hash']);
+        $hash       = base64_decode($_REQUEST['hash']);
 
         $rs         = $db->prepare("DELETE FROM users WHERE id = '$hash'");
         $rs->execute();
