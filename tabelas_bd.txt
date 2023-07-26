@@ -1,0 +1,32 @@
+tabele de usuarios 
+
+delimiter $$
+
+CREATE TABLE `users` (
+  `id` int(4) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `last_name` varchar(100) DEFAULT NULL,
+  `birth_date` date DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `password` varchar(100) DEFAULT NULL,
+  `telephone` varchar(20) DEFAULT NULL,
+  `date_register` date DEFAULT curdate(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci$$
+
+
+tabela de carros
+
+delimiter $$
+
+CREATE TABLE `cars` (
+  `id` int(4) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `brand` varchar(100) DEFAULT NULL,
+  `year` int(5) DEFAULT NULL,
+  `price` varchar(30) DEFAULT NULL,
+  `status` varchar(1) DEFAULT NULL,
+  `date_register` date DEFAULT curdate(),
+  PRIMARY KEY (`id`),
+  CONSTRAINT `CONSTRAINT_1` CHECK (`status` in ('V','N'))
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci$$

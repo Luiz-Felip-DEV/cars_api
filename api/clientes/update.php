@@ -10,7 +10,7 @@ $person = new functions;
     }
 
 
-    if ($acao == 'atualizar')
+    if ($acao == 'update')
         {
             if (!isset($_REQUEST['hash']))
             {
@@ -19,9 +19,11 @@ $person = new functions;
                 ]));
             }
             $arrParams = explode('#', base64_decode($_REQUEST['hash']));
+
+            $data = date("Y-m-d", strtotime($arrParams[3])); 
         
             $db = DB::connect();
-            $rs = $db->prepare("UPDATE users SET name = '$arrParams[1]', last_name = '$arrParams[2]', age = '$arrParams[3]', email = '$arrParams[4]', password = '$arrParams[5]', telefone = '$arrParams[6]' WHERE id = '$arrParams[0]'");
+            $rs = $db->prepare("UPDATE users SET name = '$arrParams[1]', last_name = '$arrParams[2]', birth_date = '$data', email = '$arrParams[4]', password = '$arrParams[5]', telephone = '$arrParams[6]' WHERE id = '$arrParams[0]'");
             try {
                 $rs->execute();
 

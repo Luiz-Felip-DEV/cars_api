@@ -23,15 +23,19 @@ $person = new functions;
         $arrHash    = explode('#', $hash);
 
         # $hash = base64_encode($nome .'#'. $sobrenome.'#'. $idade.'#'.$email.'#'.$senha.'#'.$telefone);
-        $rs         = $db->prepare("INSERT INTO users (name, last_name, age, email, password, telefone) VALUES ('$arrHash[0]', '$arrHash[1]', '$arrHash[2]', '$arrHash[3]', '$arrHash[4]', '$arrHash[5]')");
+        $data = date("Y-m-d", strtotime($arrHash[2])); 
+
+        $rs         = $db->prepare("INSERT INTO users (name, last_name, birth_date, email, password, telephone) VALUES ('$arrHash[0]', '$arrHash[1]', '$data', '$arrHash[3]', '$arrHash[4]', '$arrHash[5]')");
 
         try {
             $rs->execute();
+            $id = $db->lastInsertId();
             
             $dados = [
+                'id' => $id,
                 'name' => $arrHash[0],
                 'last_name' => $arrHash[1],
-                'dt_nascimento' => $arrHash[2],
+                'dt_nascimento' => $data,
                 'email' => $arrHash[3],
                 'password' => $arrHash[4],
                 'telefone' => $arrHash[5]
