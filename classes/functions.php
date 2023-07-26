@@ -32,7 +32,7 @@
             $rs->execute();
             $obj = $rs->fetchObject();
 
-            return $obj;
+            return $obj->id;
         }
 
         public function verifyEmail($email)
