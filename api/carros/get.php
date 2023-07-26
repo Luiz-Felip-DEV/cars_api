@@ -20,16 +20,16 @@
 
             if ($obj)
             {
-                die($result = $person->createResponse(200, 'Carros Encontrado com Sucesso!',[
+                die($result = $person->createResponse(200, 'Carro Encontrado com Sucesso!',[
                     'dados'     => $obj
                 ]));
             }else{
-                die($result = $person->createResponse(500, 'Não Existe Carros Para Retornar!',[
+                die($result = $person->createResponse(200, 'Não Existe Carros Para Retornar!',[
                     ''
                 ]));
             }
         }catch (Exception $e) {
-            die($result = $person->createResponse(500, 'Não Existe Carros Para Retornar!',[
+            die($result = $person->createResponse(500, 'Não Existe Carro Para Retornar!',[
                 'ERROR' => $e->getMessage()
             ]));
         }

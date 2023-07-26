@@ -1,0 +1,18 @@
+{
+    "name": "luiz.souza/sem-framework",
+    "autoload": {
+        "files": [
+            "classes/mensagens.php"
+        ],
+        "psr-4": {
+           "classes\\":"classes"
+        }
+    },
+    "authors": [
+        {
+            "name": "luiz.souza",
+            "email": "luiz.martins@unitri.edu.br"
+        }
+    ],
+    "require": {}
+}

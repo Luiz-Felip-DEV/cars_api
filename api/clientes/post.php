@@ -1,15 +1,17 @@
 <?php
 include_once 'classes/functions.php';
+include_once 'vendor/autoload.php';
 
 $person = new functions;
 
     if ($acao == '' && $param == ''){
-        echo json_encode(['ERRO' => 'Caminho não encontrado']);
+
+        die($result = $person->createResponse(500, 'Caminho não Encontrado!', ''));
     }
 
-    if ($acao == 'adiciona' && $param == '')
+    if ($acao == 'insert' && $param == '')
     {
-        if (!isset($_REQUEST['hash']))
+        if (!isset($_POST['hash']))
         {
             die($result = $person->createResponse(500, 'Parametros Incorretos!',[
                 ''

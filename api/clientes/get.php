@@ -3,9 +3,7 @@ include_once 'classes/functions.php';
 $person = new functions; 
 
     if ($acao == '' && $param == ''){
-        die($result = $person->createResponse(500, 'Caminho não Encontrado!',[
-            ''
-        ]));
+        die($result = $person->createResponse(500, 'Caminho não Encontrado!', ''));
     }
 
     if ($acao == 'lista' && $param !== '')
@@ -38,7 +36,7 @@ $person = new functions;
     if ($acao == 'login')
     {
 
-        if (!isset($_REQUEST['hash']))
+        if (!isset($_GET['hash']))
             {
                 die($result = $person->createResponse(500, 'Parametros Incorretos!',[
                     ''
@@ -59,7 +57,7 @@ $person = new functions;
                     'dados'     => $obj
                 ]));
             }else {
-                die($result = $person->createResponse(500, 'Dados Inválidos!',[
+                die($result = $person->createResponse(500, 'Usuario Não Encontrado!',[
                     ''
                 ]));
             }
