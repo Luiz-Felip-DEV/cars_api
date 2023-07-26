@@ -19,8 +19,7 @@ $person = new functions;
         }
         
         $db         = DB::connect();
-        $hash       = base64_decode($_POST['hash']);
-        $arrHash    = explode('#', $hash);
+        $arrHash    = explode('#', base64_decode($_POST['hash']));
 
         # $hash = base64_encode($nome .'#'. $sobrenome.'#'. $idade.'#'.$email.'#'.$senha.'#'.$telefone);
         $data = date("Y-m-d", strtotime($arrHash[2])); 
@@ -32,13 +31,13 @@ $person = new functions;
             $id = $db->lastInsertId();
             
             $dados = [
-                'id' => $id,
-                'name' => $arrHash[0],
-                'last_name' => $arrHash[1],
+                'id'            => $id,
+                'name'          => $arrHash[0],
+                'last_name'     => $arrHash[1],
                 'dt_nascimento' => $data,
-                'email' => $arrHash[3],
-                'password' => $arrHash[4],
-                'telefone' => $arrHash[5]
+                'email'         => $arrHash[3],
+                'password'      => $arrHash[4],
+                'telefone'      => $arrHash[5]
             ];
 
             die($result = $person->createResponse(200,'Usuario Cadastrado com Sucesso!' ,[

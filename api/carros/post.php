@@ -22,10 +22,9 @@
             ]));
         }
         
-        $db         = DB::connect();        
-        $hash       = base64_decode($_POST['hash']);
-        $arrHash    = explode('#', $hash);
-        $valor_formatado = number_format($arrHash[3], 2, ',', '.');
+        $db                 = DB::connect();        
+        $arrHash            = explode('#', base64_decode($_POST['hash']));
+        $valor_formatado    = number_format($arrHash[3], 2, ',', '.');
 
         # $hash = base64_encode($nome .'#'. $sobrenome.'#'. $idade.'#'.$email.'#'.$senha.'#'.$telefone);
         $rs         = $db->prepare("INSERT INTO cars (name, brand, year, price, status) VALUES ('$arrHash[0]', '$arrHash[1]', '$arrHash[2]', '$valor_formatado', '$arrHash[4]')");
@@ -34,12 +33,12 @@
             $rs->execute();
             $id = $db->lastInsertId();
             $dados = [
-                'id' => $id,
-                'name' => $arrHash[0],
-                'brand' => $arrHash[1],
-                'year' => $arrHash[2],
-                'price' => $valor_formatado,
-                'status' => $arrHash[4] 
+                'id'        => $id,
+                'name'      => $arrHash[0],
+                'brand'     => $arrHash[1],
+                'year'      => $arrHash[2],
+                'price'     => $valor_formatado,
+                'status'    => $arrHash[4] 
             ];
 
             die($result = $person->createResponse(200,'Carro Cadastrado com Sucesso!' ,[

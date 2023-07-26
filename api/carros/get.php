@@ -4,12 +4,10 @@
     $person = new functions; 
 
     if ($acao == '' && $param == ''){
-        die($result = $person->createResponse(500, 'Caminho não Encontrado!',[
-            ''
-        ]));
+        die($result = $person->createResponse(500, 'Caminho não Encontrado!', ''));
     }
 
-    if ($acao == 'carros')
+    if ($acao == 'cars')
     {
         $db = DB::connect();
         $rs = $db->prepare("SELECT * FROM cars ORDER BY id");
@@ -40,13 +38,11 @@
     {
         if (!isset($_REQUEST['hash']))
         {
-            die($result = $person->createResponse(500, 'Parametros Incorretos!',[
-                ''
-            ]));
+            die($result = $person->createResponse(500, 'Parametros Incorretos!', ''));
         }
         $modelo = base64_decode($_REQUEST['hash']);
-        $db = DB::connect();
-        $rs = $db->prepare("SELECT * FROM cars WHERE brand = '{$modelo}' ORDER BY id");
+        $db     = DB::connect();
+        $rs     = $db->prepare("SELECT * FROM cars WHERE brand = '{$modelo}' ORDER BY id");
 
         try {
             $rs->execute();

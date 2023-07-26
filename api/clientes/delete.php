@@ -5,7 +5,7 @@ include_once 'classes/functions.php';
 $person = new functions;
 
     if ($acao == '' && $param == ''){
-        echo json_encode(['ERRO' => 'Caminho não encontrado']);
+        die($result = $person->createResponse(500, 'Caminho não encontrado!',''));
     }
 
     if ($acao == 'delete' && $param == '')
@@ -24,9 +24,16 @@ $person = new functions;
 
         try {
             $rs->execute();
-            die($result = $person->createResponse(200,'Usuario Deletado com Sucesso!' ,[
-                ''
-            ]));
+            if ($rs->rowCount() > 0)
+            {
+                die($result = $person->createResponse(200,'Usuario Deletado com Sucesso!' ,[
+                    ''
+                ]));
+            } else {
+                die($result = $person->createResponse(500,'Erro ao Deletar Usuario, Usuario não Encontrado!' ,[
+                    ''
+                ]));
+            }
         } catch (Exception $e) {
             die($result = $person->createResponse(500,'Erro ao Deletar Usuario!' ,[
                 'ERROR' => $e->getMessage()

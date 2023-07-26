@@ -1,6 +1,6 @@
 <?php 
 
-    if ($api == 'clientes') 
+    if ($api == 'users') 
     {
         if ($method == 'GET')
         {

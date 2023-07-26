@@ -4,9 +4,7 @@
     $person = new functions;
 
     if ($acao == '' && $param == ''){
-        die($result = $person->createResponse(500, 'Caminho não Encontrado!',[
-            ''
-        ]));
+        die($result = $person->createResponse(500, 'Caminho não Encontrado!',''));
     }
 
 
@@ -25,9 +23,26 @@
 
             try {
                 $rs->execute();
-                die($result = $person->createResponse(200, 'Dados Atualizados com Sucesso!',[
-                    ''
-                ]));
+
+                if ($rs->rowCount() > 0)
+                {
+                    $dados = [
+                        'id' => $arrParams[0],
+                        'name' => $arrParams[1],
+                        'brand' => $arrParams[2],
+                        'year' => $arrParams[3],
+                        'price' => $arrParams[4],
+                        'status' => $arrParams[5]
+                    ];
+                    die($result = $person->createResponse(200, 'Dados Atualizados com Sucesso!',[
+                        'dados' => $dados
+                    ])); 
+                } else {
+                    die($result = $person->createResponse(500, 'Erro ao Atualizar Dados, Carro não Encontrado!',[
+                        ''
+                    ])); 
+                }
+
             }catch (Exception $e) {
                 die($result = $person->createResponse(500, 'Erro ao Atualizar Dados!',[
                     'ERROR' => $e->getMessage()
@@ -51,9 +66,18 @@
             // $rs->execute();
             try {
                 $rs->execute();
-                die($result = $person->createResponse(200, 'Dados Atualizados com Sucesso!',[
-                    ''
-                ]));
+
+                if ($rs->rowCount() > 0)
+                {
+                    $dados =[
+                        'id'        => $arrParams[0],
+                        'status'    => $arrParams[1]
+                    ];
+                    die($result = $person->createResponse(200, 'Dados Atualizados com Sucesso!',[
+                        'dados' => $dados
+                    ])); 
+                }
+
             } catch (Exception $e) {
                 die($result = $person->createResponse(500, 'Erro ao Atualizar Dados!',[
                     'ERROR' => $e->getMessage()
