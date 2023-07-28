@@ -1,12 +1,13 @@
 <?php
 include_once 'classes/functions.php';
+include_once 'classes/mensagens.php';
 $person = new functions; 
 
     if ($acao == '' && $param == ''){
-        die($result = $person->createResponse(500, 'Caminho não Encontrado!', ''));
+        die($result = $person->createResponse(COD_ERROR, PATH_NOT_FOUND, ''));
     }
 
-    if ($acao == 'lista' && $param !== '')
+    if ($acao == 'lista' && $param !== '')  
     {
         $db = DB::connect();
         $rs = $db->prepare("SELECT * FROM users WHERE id = {$param}");
@@ -17,16 +18,16 @@ $person = new functions;
 
             if ($obj)
             {
-                die($result = $person->createResponse(200, 'Usuario Encontrado com Sucesso!',[
+                die($result = $person->createResponse(COD_SUCCESS, USER_FOUND,[
                     'dados'     => $obj
                 ]));
             }else{
-                die($result = $person->createResponse(200, 'Não Existe Usuarios Para Retornar!',[
+                die($result = $person->createResponse(COD_ERROR_BD, ERROR_USER_GET,[
                     ''
                 ]));
             }
         }catch (Exception $e) {
-            die($result = $person->createResponse(500, 'Não Existe Usuarios Para Retornar!',[
+            die($result = $person->createResponse(COD_ERROR, ERROR_SEARCH_DATA,[
                 'ERROR' => $e->getMessage()
             ]));
         }
@@ -35,10 +36,9 @@ $person = new functions;
 
     if ($acao == 'login')
     {
-
         if (!isset($_GET['hash']))
             {
-                die($result = $person->createResponse(500, 'Parametros Incorretos!',[
+                die($result = $person->createResponse(COD_ERROR, WRONG_PARAMETERS,[
                     ''
                 ]));
             }
@@ -53,19 +53,19 @@ $person = new functions;
 
             if ($obj) 
             {
-                die($result = $person->createResponse(200, 'Usuario Autorizado com Sucesso!',[
+                die($result = $person->createResponse(COD_SUCCESS, LOGIN_SUCCESS,[
                     'dados'     => $obj
                 ]));
             }else {
-                die($result = $person->createResponse(500, 'Usuario Não Encontrado!',[
+                die($result = $person->createResponse(COD_ERROR_BD, LOGIN_UNAUTHORIZED,[
                     ''
                 ]));
             }
         } catch (Exception $e) {
-            die($result = $person->createResponse(500, 'Dados Inválidos!',[
+            die($result = $person->createResponse(COD_ERROR, ERROR_SEARCH_DATA,[
                 'ERROR' => $e->getMessage()
             ]));
         }
-
     }
+
 ?>

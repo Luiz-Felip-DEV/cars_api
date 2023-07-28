@@ -1,18 +1,19 @@
 <?php 
 
     include_once 'classes/functions.php';
+    include_once 'classes/mensagens.php';
 
     $person = new functions;
 
     if ($acao == '' && $param == ''){
-        die($result = $person->createResponse(500, 'Caminho não encontrado!', ''));
+        die($result = $person->createResponse(COD_ERROR, PATH_NOT_FOUND, ''));
     }
 
     if ($acao == 'delete')
     {
         if (!isset($_REQUEST['hash']))
         {
-            die($result = $person->createResponse(500, 'Parametros Incorretos!', ''));
+            die($result = $person->createResponse(COD_ERROR, WRONG_PARAMETERS, ''));
         }
         
         $db         = DB::connect();
@@ -25,13 +26,13 @@
 
             if ($rs->rowCount() > 0)
             {
-                die($result = $person->createResponse(200,'Carro Deletado com Sucesso!' ,''));
+                die($result = $person->createResponse(COD_SUCCESS,DELETE_SUCCESS ,''));
             } else {
-                die($result = $person->createResponse(500,'Erro ao Deletar Carro, Dados Invalidos!', ''));
+                die($result = $person->createResponse(COD_ERROR_BD,NOTHING_FOUND, ''));
             }
 
         }catch (Exception $e) {
-            die($result = $person->createResponse(500,'Erro ao Deletar Carro!' ,[
+            die($result = $person->createResponse(COD_ERROR,DELETE_UNAUTHORIZED ,[
                 'ERROR' => $e->getMessage()
             ]));
         }
