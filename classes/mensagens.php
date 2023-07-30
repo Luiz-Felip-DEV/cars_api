@@ -28,6 +28,9 @@
     define('ERROR-GET-CARS', 'Erro ao Buscar Carros!');
 
 
+    // COD ERROR
+
+    define()
 
 
 ?>

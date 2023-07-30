@@ -1,6 +1,5 @@
 <?php
 include_once 'classes/functions.php';
-include_once 'vendor/autoload.php';
 
 $person = new functions;
 
@@ -11,20 +10,37 @@ $person = new functions;
 
     if ($acao == 'insert' && $param == '')
     {
-        if (!isset($_POST['hash']))
+
+        $dados = $_POST;
+
+        if (!$person->allFieldsFilled($dados))
         {
             die($result = $person->createResponse(500, 'Parametros Incorretos!',[
-                ''
-            ]));
+                        ''              ]));
+            
         }
-        
-        $db         = DB::connect();
-        $arrHash    = explode('#', base64_decode($_POST['hash']));
+
+        $db             = DB::connect();
+        $name           = $dados['name'];
+        $last_name      = $dados['last_name'];
+        $birth_date     = $dados['birth_date'];
+        $email          = $dados['email'];
+        $password       = $dados['password'];
+        $telephone      = $dados['telephone'];
+
+        if (!$person->verifyEmail($email))
+        {
+            echo "email repetido";
+            exit;
+        }
+
+        echo "email valido";
+        exit;
 
         # $hash = base64_encode($nome .'#'. $sobrenome.'#'. $idade.'#'.$email.'#'.$senha.'#'.$telefone);
-        $data = date("Y-m-d", strtotime($arrHash[2])); 
+        $data = date("Y-m-d", strtotime($birth_date)); 
 
-        $rs         = $db->prepare("INSERT INTO users (name, last_name, birth_date, email, password, telephone) VALUES ('$arrHash[0]', '$arrHash[1]', '$data', '$arrHash[3]', '$arrHash[4]', '$arrHash[5]')");
+        $rs         = $db->prepare("INSERT INTO users (name, last_name, birth_date, email, password, telephone) VALUES ('$name', '$last_name', '$data', '$email', '$password', '$telephone')");
 
         try {
             $rs->execute();
@@ -32,15 +48,15 @@ $person = new functions;
             
             $dados = [
                 'id'            => $id,
-                'name'          => $arrHash[0],
-                'last_name'     => $arrHash[1],
+                'name'          => $name,
+                'last_name'     => $last_name,
                 'dt_nascimento' => $data,
-                'email'         => $arrHash[3],
-                'password'      => $arrHash[4],
-                'telefone'      => $arrHash[5]
+                'email'         => $email,
+                'password'      => $password,
+                'telefone'      => $telephone
             ];
 
-            die($result = $person->createResponse(200,'Usuario Cadastrado com Sucesso!' ,[
+             die($result = $person->createResponse(200,'Usuario Cadastrado com Sucesso!' ,[
                 'dados' => $dados
             ]));
         }catch (Exception $e) {

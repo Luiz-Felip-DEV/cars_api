@@ -61,6 +61,15 @@
             return $resp;
         }
 
+        public function allFieldsFilled($array) {
+            foreach ($array as $valor) {
+                if (empty($valor)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
     }
 
 ?>
