@@ -6,25 +6,45 @@ $person = new functions;
 
     if ($acao == '' && $param == ''){
 
-        die($result = $person->createResponse(500, 'Caminho não Encontrado!', ''));
+        die($result = $person->createResponse(COD_ERROR, PATH_NOT_FOUND, ''));
     }
 
     if ($acao == 'insert' && $param == '')
     {
-        if (!isset($_POST['hash']))
-        {
-            die($result = $person->createResponse(500, 'Parametros Incorretos!',[
-                ''
-            ]));
-        }
         
-        $db         = DB::connect();
-        $arrHash    = explode('#', base64_decode($_POST['hash']));
+        $dados = $_POST;
+
+        if (!$person->allFieldsFilled($dados))
+        {
+            die($result = $person->createResponse(COD_ERROR, WRONG_PARAMETERS,[
+                        ''              ]));
+            
+        }
+
+        
+        $db             = DB::connect();
+        $name           = $dados['name'];
+        $last_name      = $dados['last_name'];
+        $birth_date     = $dados['birth_date'];
+        $email          = $dados['email'];
+        $password       = $dados['password'];
+        $telephone      = $person->formatedNumber($dados['telephone']);
+
+        if (!$person->verifyEmail($email))
+        {
+            die($result = $person->createResponse(REPEATED_DATA_BANK, EMAIL_IS_ALREADY_DATABASE, ''));
+        }
+
+        if (!$person->verifyTelephone($telephone))
+        {
+            die($result = $person->createResponse(REPEATED_DATA_BANK, TELEPHONE_IS_ALREADY_DATABASE, ''));
+        }
 
         # $hash = base64_encode($nome .'#'. $sobrenome.'#'. $idade.'#'.$email.'#'.$senha.'#'.$telefone);
-        $data = date("Y-m-d", strtotime($arrHash[2])); 
+        $data = date("Y-m-d", strtotime($birth_date)); 
 
-        $rs         = $db->prepare("INSERT INTO users (name, last_name, birth_date, email, password, telephone) VALUES ('$arrHash[0]', '$arrHash[1]', '$data', '$arrHash[3]', '$arrHash[4]', '$arrHash[5]')");
+        $rs         = $db->prepare("INSERT INTO users (name, last_name, birth_date, email, password, telephone) VALUES ('$name', '$last_name', '$data', '$email', '$password', '$telephone')");
+
 
         try {
             $rs->execute();
@@ -32,22 +52,23 @@ $person = new functions;
             
             $dados = [
                 'id'            => $id,
-                'name'          => $arrHash[0],
-                'last_name'     => $arrHash[1],
+                'name'          => $name,
+                'last_name'     => $last_name,
                 'dt_nascimento' => $data,
-                'email'         => $arrHash[3],
-                'password'      => $arrHash[4],
-                'telefone'      => $arrHash[5]
+                'email'         => $email,
+                'password'      => $password,
+                'telephone'     => $telephone
             ];
 
-            die($result = $person->createResponse(200,'Usuario Cadastrado com Sucesso!' ,[
+
+            die($result = $person->createResponse(COD_SUCCESS, USER_REGISTERED_SUCCESS ,[
                 'dados' => $dados
             ]));
         }catch (Exception $e) {
-            die($result = $person->createResponse(500,'Erro ao Cadastrar Usuario!' ,[
+            die($result = $person->createResponse(COD_ERROR, ERROR_REGISTER_USER ,[
                 'ERROR' => $e->getMessage()
             ]));
-        }
+        }   
 
     }
 

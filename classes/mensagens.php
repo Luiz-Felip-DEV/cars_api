@@ -1,7 +1,7 @@
 <?php 
 
     //SUCCESS
-    define('USER-REGISTERED-SUCCESS', 'Usuario Cadastrado Com Sucesso!');
+    define('USER_REGISTERED_SUCCESS', 'Usuario Cadastrado Com Sucesso!');
     define('USER_FOUND', 'Usuario Encontrado com Sucesso!');
     define('CAR_FOUND', 'Carro Encontrado com Sucesso!');
     define('NO-DATA-RETURN', 'Não Existe Usuario Para Retornar!');
@@ -22,7 +22,7 @@
     define('CAR_NOT_FOUND', 'Carro Não Encontrado!');
     define('PATH_NOT_FOUND', 'Caminho não Encontrado!');
     define('WRONG_PARAMETERS', 'Parâmetros Incorretos!');
-    define('ERROR-REGISTER-USER', 'Erro ao Cadastrar Usuario!');
+    define('ERROR_REGISTER_USER', 'Erro ao Cadastrar Usuario!');
     define('ERROR_SEARCH_DATA', 'Erro ao Buscar Dados!');
     define('LOGIN_UNAUTHORIZED', 'Usuario não Autorizado!');
     define('UPDATED-UNAUTHORIZED', 'Erro ao Atualizar Dados!');
@@ -31,11 +31,14 @@
     define('ERROR-CAR-INSERTED', 'Erro ao Cadastrar Carro!');
     define('ERROR_CAR_GET', 'Não Existe Carros Para Retornar!');
     define('ERROR_USER_GET', 'Não Existe Usuario Para Retornar!');
+    define('EMAIL_IS_ALREADY_DATABASE', 'Email já Consta na Base de Dados!');
+    define('TELEPHONE_IS_ALREADY_DATABASE', 'Telefone já Consta na Base de Dados!');
 
     define('ERROR_GET', 'Erro ao Buscar!');
     define('COD_ERROR', 500);
     define('COD_ERROR_BD', 201);
-    define('NOTHING_FOUND', 'Erro ao Deletar, Nada Encontrado')
+    define('NOTHING_FOUND', 'Erro ao Deletar, Nada Encontrado');
+    define('REPEATED_DATA_BANK', 501);
 
 
 
