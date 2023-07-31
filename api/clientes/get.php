@@ -7,10 +7,15 @@ $person = new functions;
         die($result = $person->createResponse(COD_ERROR, PATH_NOT_FOUND, ''));
     }
 
-    if ($acao == 'lista' && $param !== '')  
+    if ($acao == 'user')  
     {
+        if (!isset($_REQUEST['hash']))
+        {
+            die($result = $person->createResponse(COD_ERROR, WRONG_PARAMETERS, ''));
+        }
+        $id = base64_decode($_GET['hash']);
         $db = DB::connect();
-        $rs = $db->prepare("SELECT * FROM users WHERE id = {$param}");
+        $rs = $db->prepare("SELECT * FROM users WHERE id = '$id'");
 
         try {
             $rs->execute();

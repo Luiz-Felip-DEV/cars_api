@@ -22,8 +22,8 @@ $person = new functions;
         }
         
         $db             = DB::connect();
-        $name           = $dados['name'];
-        $last_name      = $dados['last_name'];
+        $name           = ucwords($dados['name']);
+        $last_name      = ucwords($dados['last_name']);
         $birth_date     = $dados['birth_date'];
         $email          = $dados['email'];
         $password       = $dados['password'];

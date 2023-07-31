@@ -25,11 +25,11 @@
             
         }
 
-        $name   = $dados['name'];
-        $brand  = $dados['brand'];
+        $name   = ucwords($dados['name']);
+        $brand  = ucwords($dados['brand']);
         $year   = $dados['year'];
         $price  = $dados['price'];
-        $status = $dados['status'];
+        $status = ucwords($dados['status']);
           
         $db                 = DB::connect();        
         $valor_formatado    = number_format($price, 2, ',', '.');
