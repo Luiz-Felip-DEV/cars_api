@@ -5,7 +5,7 @@ include_once 'classes/mensagens.php';
 $person = new functions;
 
     if ($acao == '' && $param == ''){
-        die($result = $person->createResponse(500, 'Caminho não Encontrado!', ''));
+        die($result = $person->createResponse(COD_ERROR, PATH_NOT_FOUND, ''));
     }
 
 
@@ -13,7 +13,7 @@ $person = new functions;
         {
             if (!isset($_REQUEST['hash']))
             {
-                die($result = $person->createResponse(500, 'Parametros Incorretos!',[
+                die($result = $person->createResponse(COD_ERROR, WRONG_PARAMETERS,[
                     ''
                 ]));
             }
@@ -38,16 +38,16 @@ $person = new functions;
                         'telefone'      => $arrParams[6]
                     ];
 
-                    die($result = $person->createResponse(200, 'Dados Atualizados com Sucesso!',[
+                    die($result = $person->createResponse(COD_SUCCESS, UPDATED_DATA,[
                         'dados' => $dados
                     ]));
                     
                 } else {
-                    die($result = $person->createResponse(500, 'Erro ao Atualizar Dados!',''));
+                    die($result = $person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,''));
                 }
 
             } catch (Exception $e) {
-                die($result = $person->createResponse(500, 'Erro ao Atualizar Dados!',[
+                die($result = $person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
                     'ERROR' => $e->getMessage()
                 ]));
             }
@@ -58,7 +58,7 @@ $person = new functions;
         {
             if (!isset($_REQUEST['hash']))
             {
-                die($result = $person->createResponse(500, 'Parametros Incorretos!',[
+                die($result = $person->createResponse(COD_ERROR, WRONG_PARAMETERS,[
                     ''
                 ]));
             }
@@ -72,13 +72,13 @@ $person = new functions;
                 $rs->execute();
 
                 if ($rs->rowCount() > 0) {
-                    die($result = $person->createResponse(200, 'Senha Atualizada com Sucesso!', ''));
+                    die($result = $person->createResponse(COD_SUCCESS, UPDATED_DATA, ''));
                 }else{
-                    die($result = $person->createResponse(500, 'Senha ou Id Inválidos!', ''));
+                    die($result = $person->createResponse(COD_ERROR_BD, UPDATED_UNAUTHORIZED, ''));
                 }
                     
             }catch (Exception $e) {
-                die($result = $person->createResponse(500, 'Erro ao Atualizar Senha!',[
+                die($result = $person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
                     'ERROR' => $e->getMessage()
                 ]));
             }

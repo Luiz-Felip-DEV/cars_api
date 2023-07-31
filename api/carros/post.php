@@ -8,45 +8,52 @@
 
     if ($acao == '' && $param == ''){
         
-        die($result = $person->createResponse(500, 'Caminho não encontrado!',[
+        die($result = $person->createResponse(COD_ERROR, PATH_NOT_FOUND,[
             ''
         ]));
     }
 
     if ($acao == 'insert')
     {
-    
-        if (!isset($_REQUEST['hash']))
+
+        $dados = $_POST;
+
+        if (!$person->allFieldsFilled($dados))
         {
-            die($result = $person->createResponse(500, 'Parametros Incorretos!',[
-                ''
-            ]));
+            die($result = $person->createResponse(COD_ERROR, WRONG_PARAMETERS,[
+                        ''              ]));
+            
         }
-        
+
+        $name   = $dados['name'];
+        $brand  = $dados['brand'];
+        $year   = $dados['year'];
+        $price  = $dados['price'];
+        $status = $dados['status'];
+          
         $db                 = DB::connect();        
-        $arrHash            = explode('#', base64_decode($_POST['hash']));
-        $valor_formatado    = number_format($arrHash[3], 2, ',', '.');
+        $valor_formatado    = number_format($price, 2, ',', '.');
 
         # $hash = base64_encode($nome .'#'. $sobrenome.'#'. $idade.'#'.$email.'#'.$senha.'#'.$telefone);
-        $rs         = $db->prepare("INSERT INTO cars (name, brand, year, price, status) VALUES ('$arrHash[0]', '$arrHash[1]', '$arrHash[2]', '$valor_formatado', '$arrHash[4]')");
+        $rs         = $db->prepare("INSERT INTO cars (name, brand, year, price, status) VALUES ('$name', '$brand', '$year', '$valor_formatado', '$status')");
 
         try {
             $rs->execute();
             $id = $db->lastInsertId();
             $dados = [
                 'id'        => $id,
-                'name'      => $arrHash[0],
-                'brand'     => $arrHash[1],
-                'year'      => $arrHash[2],
+                'name'      => $name,
+                'brand'     => $brand,
+                'year'      => $year,
                 'price'     => $valor_formatado,
-                'status'    => $arrHash[4] 
+                'status'    => $status
             ];
 
-            die($result = $person->createResponse(200,'Carro Cadastrado com Sucesso!' ,[
+            die($result = $person->createResponse(COD_SUCCESS,CAR_INSERTED ,[
                 'dados' => $dados
             ]));
         }catch (Exception $e){
-            die($result = $person->createResponse(500,'Erro ao Cadastrar Carro!' ,[
+            die($result = $person->createResponse(COD_ERROR, ERROR_CAR_INSERTED ,[
                 'ERROR' => $e->getMessage()
             ]));
         }

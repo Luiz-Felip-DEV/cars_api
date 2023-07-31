@@ -20,7 +20,6 @@ $person = new functions;
                         ''              ]));
             
         }
-
         
         $db             = DB::connect();
         $name           = $dados['name'];
@@ -40,7 +39,6 @@ $person = new functions;
             die($result = $person->createResponse(REPEATED_DATA_BANK, TELEPHONE_IS_ALREADY_DATABASE, ''));
         }
 
-        # $hash = base64_encode($nome .'#'. $sobrenome.'#'. $idade.'#'.$email.'#'.$senha.'#'.$telefone);
         $data = date("Y-m-d", strtotime($birth_date)); 
 
         $rs         = $db->prepare("INSERT INTO users (name, last_name, birth_date, email, password, telephone) VALUES ('$name', '$last_name', '$data', '$email', '$password', '$telephone')");
