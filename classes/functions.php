@@ -10,7 +10,7 @@
             $response = array (
                 'status_code'   => $status_code,
                 'msg'           => $mensagem,
-                'result'          => $resp 
+                'result'        => $resp 
             );
     
             return json_encode($response);

@@ -1,7 +1,6 @@
 <?php 
 
-    include_once 'classes/functions.php';
-    include_once 'classes/mensagens.php';
+    include_once 'vendor/autoload.php';
 
     $person = new functions;
 

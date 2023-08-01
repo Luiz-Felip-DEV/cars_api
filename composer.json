@@ -2,7 +2,8 @@
     "name": "luiz.souza/sem-framework",
     "autoload": {
         "files": [
-            "classes/mensagens.php"
+            "classes/mensagens.php",
+            "classes/functions.php"
         ],
         "psr-4": {
            "classes\\":"classes"

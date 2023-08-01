@@ -1,9 +1,8 @@
 <?php 
 
-include_once 'classes/functions.php';
-include_once 'classes/mensagens.php';
+    include_once 'vendor/autoload.php';
 
-$person = new functions;
+    $person = new functions;
 
     if ($acao == '' && $param == ''){
         die($result = $person->createResponse(COD_ERROR, PATH_NOT_FOUND,''));

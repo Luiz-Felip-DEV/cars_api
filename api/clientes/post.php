@@ -1,8 +1,8 @@
 <?php
-include_once 'classes/functions.php';
-include_once 'classes/mensagens.php';
 
-$person = new functions;
+    include_once 'vendor/autoload.php';
+
+    $person = new functions;
 
     if ($acao == '' && $param == ''){
 
