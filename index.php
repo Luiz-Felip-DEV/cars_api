@@ -39,4 +39,7 @@ include_once 'classes/db.class.php';
 include_once 'api/clientes/clientes.php';
 include_once 'api/carros/carros.php';
 
+// teste estou aqui
+// teste estou aqui
+
 ?>
