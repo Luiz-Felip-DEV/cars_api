@@ -8,6 +8,20 @@
         die($result = $person->createResponse(COD_ERROR, PATH_NOT_FOUND, ''));
     }
 
+    switch ($acao)
+    {
+        case 'update':
+            break;
+        case 'update-password':
+            break;
+        case 'update-telephone':
+            break;
+        case 'update-email':
+            break;  
+        default:
+            die($result = $person->createResponse(COD_ERROR, ACTION_NOT_FOUND, ''));
+    }
+
 
     if ($acao == 'update')
         {
@@ -18,6 +32,7 @@
                 ]));
             }
             $arrParams = explode('#', base64_decode($_REQUEST['hash']));
+
 
             $data = date("Y-m-d", strtotime($arrParams[3])); 
         
@@ -65,8 +80,12 @@
 
             $arrParams = explode('#', base64_decode($_REQUEST['hash']));
 
+            $id         = $arrParams[0];
+            $passAnti   = $arrParams[1];     
+            $passNovo   = $arrParams[2];
+
             $db = DB::connect();
-            $rs = $db->prepare("UPDATE users SET password = '$arrParams[2]' WHERE id = '$arrParams[0]' AND password = '$arrParams[1]'");
+            $rs = $db->prepare("UPDATE users SET password = '$passNovo' WHERE id = '$id' AND password = '$passAnti' ");
             
             try {
                 $rs->execute();
@@ -82,6 +101,46 @@
                     'ERROR' => $e->getMessage()
                 ]));
             }
+        }
+
+        if ($acao == 'update-email')
+        {
+            if (!isset($_REQUEST['hash']))
+            {
+                die($result = $person->createResponse(COD_ERROR, WRONG_PARAMETERS,[
+                    ''
+                ]));
+            }
+
+            $arrParams = explode('#', base64_decode($_REQUEST['hash']));
+
+            $id        = $arrParams[0];
+            $emailAnti = $arrParams[1];     
+            $emailNovo = $arrParams[2];
+
+            $db = DB::connect();
+            $rs = $db->prepare("UPDATE users SET email = '$emailNovo' WHERE id = '$id' AND email = '$emailAnti' ");
+
+            try {
+                $rs->execute();
+
+                if ($rs->rowCount() > 0) {
+                    die($result = $person->createResponse(COD_SUCCESS, UPDATED_DATA, ''));
+                }else{
+                    die($result = $person->createResponse(COD_ERROR_BD, UPDATED_UNAUTHORIZED, ''));
+                }
+                    
+            }catch (Exception $e) {
+                die($result = $person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
+                    'ERROR' => $e->getMessage()
+                ]));
+            }
+        }
+
+        if ($acao == 'update-telephone')
+        {
+            echo "estou aqui";
+            exit;
         }
 
 ?>

@@ -8,6 +8,16 @@
         die($result = $person->createResponse(COD_ERROR, PATH_NOT_FOUND, ''));
     }
 
+    switch ($acao)
+    {
+        case 'user':
+            break;
+        case 'login':
+            break;  
+        default:
+            die($result = $person->createResponse(COD_ERROR, ACTION_NOT_FOUND, ''));
+    }
+
     if ($acao == 'user')  
     {
         if (!isset($_REQUEST['hash']))

@@ -8,6 +8,14 @@
         die($result = $person->createResponse(COD_ERROR, PATH_NOT_FOUND,''));
     }
 
+    switch ($acao)
+    {
+        case 'update':
+            break;  
+        default:
+            die($result = $person->createResponse(COD_ERROR, ACTION_NOT_FOUND, ''));
+    }
+
     if ($acao == 'delete' && $param == '')
     {
         if (!isset($_REQUEST['hash']))

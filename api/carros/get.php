@@ -8,6 +8,18 @@
         die($result = $person->createResponse(COD_ERROR, PATH_NOT_FOUND, ''));
     }
 
+    switch ($acao)
+    {
+        case 'cars':
+            break;
+        case 'cars-brand':
+            break;
+        case 'car-id':
+            break;  
+        default:
+            die($result = $person->createResponse(COD_ERROR, ACTION_NOT_FOUND, ''));
+    }
+
     if ($acao == 'cars')
     {
         $db = DB::connect();
@@ -90,8 +102,6 @@
                 die($result = $person->createResponse(COD_SUCCESS, CAR_SUCCESS,[
                     'dados'     => $obj
                 ]));
-
-                // $resp = json_decode($result);
                 
             } else {
                 die($result = $person->createResponse(COD_ERROR_BD, CAR_NOT_FOUND,[

@@ -28,7 +28,9 @@
     define('EMAIL_IS_ALREADY_DATABASE',     'Email já Consta na Base de Dados!');
     define('TELEPHONE_IS_ALREADY_DATABASE', 'Telefone já Consta na Base de Dados!');
     define('ERROR_GET',                     'Erro ao Buscar!');
-    define('NOTHING_FOUND',                 'Erro ao Deletar, Nada Encontrado!');                    
+    define('NOTHING_FOUND',                 'Erro ao Deletar, Nada Encontrado!');
+    define('ACTION_NOT_FOUND',               'Erro Ação não Encontrada!');
+    
 
     //COD ERROR/SUCCESS
     define('COD_ERROR', 500);

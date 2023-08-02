@@ -9,6 +9,14 @@
         die($result = $person->createResponse(COD_ERROR, PATH_NOT_FOUND, ''));
     }
 
+    switch ($acao)
+    {
+        case 'insert':
+            break;  
+        default:
+            die($result = $person->createResponse(COD_ERROR, ACTION_NOT_FOUND, ''));
+    }
+
     if ($acao == 'insert' && $param == '')
     {
         
