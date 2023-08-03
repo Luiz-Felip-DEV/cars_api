@@ -19,11 +19,12 @@
     }
 
     if ($acao == 'user')  
-    {
+    { 
         if (!isset($_REQUEST['hash']))
         {
             die($result = $person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS, ''));
         }
+
         $id = base64_decode($_GET['hash']);
         $db = DB::connect();
         $rs = $db->prepare("SELECT * FROM users WHERE id = '$id'");
@@ -60,12 +61,15 @@
             }
             
         $arrParams = explode('#',base64_decode($_GET['hash']));
+
+        $email      = $arrParams[0];
+        $password   = $arrParams[1];
         
         $db = DB::connect();
-        $rs = $db->prepare("SELECT * FROM users WHERE email = '$arrParams[0]' AND password = '$arrParams[1]' ");
+        $rs = $db->prepare("SELECT * FROM users WHERE email = '$email' AND password = '$password' ");
         try {
             $rs->execute();
-            $obj = $rs->fetchObject();
+            $obj = $rs->fetchObject();  
 
             if ($obj) 
             {

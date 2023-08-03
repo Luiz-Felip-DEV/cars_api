@@ -10,7 +10,7 @@
 
     switch ($acao)
     {
-        case 'update':
+        case 'delete':
             break;  
         default:
             die($result = $person->createResponse(COD_ERROR_FOUND, ACTION_NOT_FOUND, ''));
@@ -24,9 +24,9 @@
         }
         
         $db         = DB::connect();
-        $hash       = base64_decode($_REQUEST['hash']);
+        $id         = base64_decode($_REQUEST['hash']);
 
-        $rs         = $db->prepare("DELETE FROM users WHERE id = '$hash'");
+        $rs         = $db->prepare("DELETE FROM users WHERE id = '$id'");
 
         try {
             $rs->execute();

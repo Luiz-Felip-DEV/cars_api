@@ -71,18 +71,25 @@
 
         if ($acao == 'update-password')
         {
-            if (!isset($_REQUEST['hash']))
+
+            $data = json_decode(file_get_contents('php://input'), true); 
+
+            if (!$data)
+            {
+                $data = explode('#', base64_decode($_REQUEST['hash']));
+            }
+
+            if (!$person->allFieldsFilled($data) || !$data)
             {
                 die($result = $person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
                     ''
                 ]));
             }
 
-            $arrParams = explode('#', base64_decode($_REQUEST['hash']));
 
-            $id         = $arrParams[0];
-            $passAnti   = $arrParams[1];     
-            $passNovo   = $arrParams[2];
+            $id         = (isset($data['id']))           ? $data['id'] : $data[0];
+            $passAnti   = (isset($data['old_password'])) ? $data['old_password'] : $data[1];     
+            $passNovo   = (isset($data['new_password'])) ? $data['new_password'] : $data[2];
 
             $db = DB::connect();
             $rs = $db->prepare("UPDATE users SET password = '$passNovo' WHERE id = '$id' AND password = '$passAnti' ");
@@ -105,18 +112,23 @@
 
         if ($acao == 'update-email')
         {
-            if (!isset($_REQUEST['hash']))
+            $data = json_decode(file_get_contents('php://input'), true); 
+
+            if (!$data)
+            {
+                $data = explode('#', base64_decode($_REQUEST['hash']));
+            }
+
+            if (!$person->allFieldsFilled($data) || !$data)
             {
                 die($result = $person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
                     ''
                 ]));
             }
 
-            $arrParams = explode('#', base64_decode($_REQUEST['hash']));
-
-            $id        = $arrParams[0];
-            $emailAnti = $arrParams[1];     
-            $emailNovo = $arrParams[2];
+            $id             = (isset($data['id']))        ? $data['id']        : $data[0];
+            $emailAnti      = (isset($data['old_email'])) ? $data['old_email'] : $data[1];     
+            $emailNovo      = (isset($data['new_email'])) ? $data['new_email'] : $data[2];
 
             $db = DB::connect();
             $rs = $db->prepare("UPDATE users SET email = '$emailNovo' WHERE id = '$id' AND email = '$emailAnti' ");
@@ -139,30 +151,42 @@
 
         if ($acao == 'update-telephone')
         {
-            // echo "estou aqui";
-            // exit;
 
-            if (!isset($_REQUEST['hash']))
+            $data = json_decode(file_get_contents('php://input'), true); 
+
+            if (!$data)
+            {
+                $data = explode('#', base64_decode($_REQUEST['hash']));
+            }
+
+            if (!$person->allFieldsFilled($data) || !$data)
             {
                 die($result = $person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
                     ''
                 ]));
             }
 
-            $arrParams = explode('#', base64_decode($_REQUEST['hash']));
-
-            print_r($arrParams);
-            exit;
-
-            $id             = $arrParams[0];
-            $telephoneAnti  = $arrParams[1];     
-            $telephoneNovo  = $arrParams[2];
+            $id                 = (isset($data['id']))            ? $data['id']            : $data[0];
+            $telephoneAnti      = (isset($data['old_telephone'])) ? $data['old_telephone'] : $data[1];     
+            $telephoneNovo      = (isset($data['new_telephone'])) ? $data['new_telephone'] : $data[2];
 
             $db = DB::connect();
             $rs = $db->prepare("UPDATE users SET telephone = '$telephoneNovo' WHERE id = '$id' AND email = '$telephoneAnti' ");
 
+            try {
+                $rs->execute();
 
-            $rs->execute();
+                if ($rs->rowCount() > 0) {
+                    die($result = $person->createResponse(COD_SUCCESS, UPDATED_DATA, ''));
+                }else{
+                    die($result = $person->createResponse(COD_ERROR_BD, UPDATED_UNAUTHORIZED, ''));
+                }
+                    
+            }catch (Exception $e) {
+                die($result = $person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
+                    'ERROR' => $e->getMessage()
+                ]));
+            }
 
         }
 
