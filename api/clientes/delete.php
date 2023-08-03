@@ -5,7 +5,7 @@
     $person = new functions;
 
     if ($acao == '' && $param == ''){
-        die($result = $person->createResponse(COD_ERROR, PATH_NOT_FOUND,''));
+        die($result = $person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND,''));
     }
 
     switch ($acao)
@@ -13,14 +13,14 @@
         case 'update':
             break;  
         default:
-            die($result = $person->createResponse(COD_ERROR, ACTION_NOT_FOUND, ''));
+            die($result = $person->createResponse(COD_ERROR_FOUND, ACTION_NOT_FOUND, ''));
     }
 
     if ($acao == 'delete' && $param == '')
     {
         if (!isset($_REQUEST['hash']))
         {
-            die($result = $person->createResponse(COD_ERROR, WRONG_PARAMETERS,''));
+            die($result = $person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,''));
         }
         
         $db         = DB::connect();

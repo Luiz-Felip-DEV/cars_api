@@ -7,7 +7,7 @@
 
     if ($acao == '' && $param == ''){
         
-        die($result = $person->createResponse(COD_ERROR, PATH_NOT_FOUND,[
+        die($result = $person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND,[
             ''
         ]));
     }
@@ -17,26 +17,26 @@
         case 'insert':
             break; 
         default:
-            die($result = $person->createResponse(COD_ERROR, ACTION_NOT_FOUND, ''));
+            die($result = $person->createResponse(COD_ERROR_FOUND, ACTION_NOT_FOUND, ''));
     }
 
     if ($acao == 'insert')
     {
 
-        $dados = $_POST;
+        $data = json_decode(file_get_contents('php://input'), true);
 
-        if (!$person->allFieldsFilled($dados))
+        if (!$person->allFieldsFilled($data) || !$data)
         {
-            die($result = $person->createResponse(COD_ERROR, WRONG_PARAMETERS,[
+            die($result = $person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
                         ''              ]));
             
         }
 
-        $name   = ucwords($dados['name']);
-        $brand  = ucwords($dados['brand']);
-        $year   = $dados['year'];
-        $price  = $dados['price'];
-        $status = ucwords($dados['status']);
+        $name   = ucwords($data['name']);
+        $brand  = ucwords($data['brand']);
+        $year   = $data['year'];
+        $price  = $data['price'];
+        $status = ucwords($data['status']);
           
         $db                 = DB::connect();        
         $valor_formatado    = number_format($price, 2, ',', '.');

@@ -5,7 +5,7 @@
     $person = new functions;
 
     if ($acao == '' && $param == ''){
-        die($result = $person->createResponse(COD_ERROR, PATH_NOT_FOUND, ''));
+        die($result = $person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND, ''));
     }
 
     switch ($acao)
@@ -19,7 +19,7 @@
         case 'update-email':
             break;  
         default:
-            die($result = $person->createResponse(COD_ERROR, ACTION_NOT_FOUND, ''));
+            die($result = $person->createResponse(COD_ERROR_FOUND, ACTION_NOT_FOUND, ''));
     }
 
 
@@ -27,7 +27,7 @@
         {
             if (!isset($_REQUEST['hash']))
             {
-                die($result = $person->createResponse(COD_ERROR, WRONG_PARAMETERS,[
+                die($result = $person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
                     ''
                 ]));
             }
@@ -73,7 +73,7 @@
         {
             if (!isset($_REQUEST['hash']))
             {
-                die($result = $person->createResponse(COD_ERROR, WRONG_PARAMETERS,[
+                die($result = $person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
                     ''
                 ]));
             }
@@ -107,7 +107,7 @@
         {
             if (!isset($_REQUEST['hash']))
             {
-                die($result = $person->createResponse(COD_ERROR, WRONG_PARAMETERS,[
+                die($result = $person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
                     ''
                 ]));
             }
@@ -139,8 +139,33 @@
 
         if ($acao == 'update-telephone')
         {
-            echo "estou aqui";
+            // echo "estou aqui";
+            // exit;
+
+            if (!isset($_REQUEST['hash']))
+            {
+                die($result = $person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
+                    ''
+                ]));
+            }
+
+            $arrParams = explode('#', base64_decode($_REQUEST['hash']));
+
+            print_r($arrParams);
             exit;
+
+            $id             = $arrParams[0];
+            $telephoneAnti  = $arrParams[1];     
+            $telephoneNovo  = $arrParams[2];
+
+            $db = DB::connect();
+            $rs = $db->prepare("UPDATE users SET telephone = '$telephoneNovo' WHERE id = '$id' AND email = '$telephoneAnti' ");
+
+
+            $rs->execute();
+
         }
+
+
 
 ?>

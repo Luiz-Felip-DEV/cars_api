@@ -11,7 +11,7 @@
     define('CAR_INSERTED',              'Carro Cadastrado com Sucesso!');
     define('CAR_SUCCESS',               'Carro Encontrado com Sucesso!');
 
-
+    
     //ERROR
     define('CARS_NOT_FOUND',                'Carros Não Encontrados!');
     define('CAR_NOT_FOUND',                 'Carro Não Encontrado!');
@@ -37,6 +37,8 @@
     define('COD_ERROR_BD', 201);
     define('COD_SUCCESS', 200);
     define('REPEATED_DATA_BANK', 501);
+    define('COD_ERROR_PARAMETERS', 400);
+    define('COD_ERROR_FOUND', 404);
 
 
 
