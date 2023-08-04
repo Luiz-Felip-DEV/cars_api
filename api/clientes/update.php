@@ -25,32 +25,37 @@
 
     if ($acao == 'update')
         {
-            if (!isset($_REQUEST['hash']))
+            $data = json_decode(file_get_contents('php://input'), true);
+
+            if (!$data)
             {
-                die($result = $person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
-                    ''
-                ]));
-            }
-            $arrParams = explode('#', base64_decode($_REQUEST['hash']));
+                $data = explode('#', base64_decode($_REQUEST['hash']));
+            }   
 
-
-            $data = date("Y-m-d", strtotime($arrParams[3])); 
+            $id         = (isset($data['id']))                  ? $data['id']         : $data[0];
+            $name       = ucwords((isset($data['name']))        ? $data['name']       : $data[1]); 
+            $lastName   = ucwords((isset($data['last_name']))   ? $data['last_name']  : $data[2]);
+            $birthDate  = (isset($data['birth_date']))          ? $data['birth_date'] : $data[3];
+            $email      = (isset($data['email']))               ? $data['email']      : $data[4];
+            $password   = (isset($data['password']))            ? $data['password']   : $data[5];
+            $telephone  = $person->formatedNumber((isset($data['telephone'])) ? $data['telephone']  : $data[6]);
+            $newDate    = date("Y-m-d", strtotime($birthDate));             
         
             $db = DB::connect();
-            $rs = $db->prepare("UPDATE users SET name = '$arrParams[1]', last_name = '$arrParams[2]', birth_date = '$data', email = '$arrParams[4]', password = '$arrParams[5]', telephone = '$arrParams[6]' WHERE id = '$arrParams[0]'");
+            $rs = $db->prepare("UPDATE users SET name = '$name', last_name = '$lastName', birth_date = '$newDate', email = '$email', password = '$password', telephone = '$telephone' WHERE id = '$id'");
             try {
                 $rs->execute();
                 
                 if ($rs->rowCount() > 0) 
                 {
                     $dados = [
-                        'id'            => $arrParams[0],
-                        'name'          => $arrParams[1],
-                        'last_name'     => $arrParams[2],
-                        'dt_nascimento' => $data,
-                        'email'         => $arrParams[4],
-                        'password'      => $arrParams[5],
-                        'telefone'      => $arrParams[6]
+                        'id'            => $id,
+                        'name'          => $name,
+                        'last_name'     => $lastName,
+                        'birth_date'    => $newDate,
+                        'email'         => $email,
+                        'password'      => $password,
+                        'telefone'      => $telephone
                     ];
 
                     die($result = $person->createResponse(COD_SUCCESS, UPDATED_DATA,[

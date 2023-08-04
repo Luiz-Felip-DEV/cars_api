@@ -11,8 +11,12 @@ CREATE TABLE `users` (
   `password` varchar(100) DEFAULT NULL,
   `telephone` varchar(20) DEFAULT NULL,
   `date_register` date DEFAULT curdate(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci$$
+  PRIMARY KEY (`id`),
+  CONSTRAINT `check_senha_minimo_caracteres` CHECK (octet_length(`password`) >= 8),
+  CONSTRAINT `check_name_minimo_caracteres` CHECK (octet_length(`name`) >= 2),
+  CONSTRAINT `check_last_name_minimo_caracteres` CHECK (octet_length(`last_name`) >= 2),
+  CONSTRAINT `check_telephone_minimo_caracteres` CHECK (octet_length(`telephone`) = 15)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci$$
 
 
 tabela de carros
