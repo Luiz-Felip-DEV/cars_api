@@ -10,6 +10,8 @@
     define('CARS_GET_SUCCESS',          'Carros Encontrados com Sucesso!');
     define('CAR_INSERTED',              'Carro Cadastrado com Sucesso!');
     define('CAR_SUCCESS',               'Carro Encontrado com Sucesso!');
+    define('JWT_SUCCESS',               'Token Gerado com Sucesso!');
+    define('JWT_KEY',                   'cHJvamVjdF9jYXJzIzIwMjMjaW50ZWdyYXJfYXBpMjAyMzAxNTY5NGF1dGhvcjojbHVpeiBmZWxpcGU=');
 
     
     //ERROR
@@ -33,12 +35,12 @@
     
 
     //COD ERROR/SUCCESS
-    define('COD_ERROR', 500);
-    define('COD_ERROR_BD', 201);
-    define('COD_SUCCESS', 200);
-    define('REPEATED_DATA_BANK', 501);
-    define('COD_ERROR_PARAMETERS', 400);
-    define('COD_ERROR_FOUND', 404);
+    define('COD_ERROR',             500);
+    define('COD_ERROR_BD',          201);
+    define('COD_SUCCESS',           200);
+    define('REPEATED_DATA_BANK',    501);
+    define('COD_ERROR_PARAMETERS',  400);
+    define('COD_ERROR_FOUND',       404);
 
 
 

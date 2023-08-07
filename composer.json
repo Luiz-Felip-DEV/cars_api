@@ -3,7 +3,8 @@
     "autoload": {
         "files": [
             "classes/mensagens.php",
-            "classes/functions.php"
+            "classes/functions.php",
+            "classes/jwt.php"
         ],
         "psr-4": {
            "classes\\":"classes"
