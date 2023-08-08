@@ -2,7 +2,8 @@
 
     include_once 'vendor/autoload.php';
     
-    $person = new functions; 
+    $person = new functions;
+    $jwt    = new JWT; 
 
     if ($acao == '' && $param == ''){
         die($result = $person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND, ''));
@@ -74,6 +75,7 @@
             if ($obj) 
             {
                 die($result = $person->createResponse(COD_SUCCESS, LOGIN_SUCCESS,[
+                    'jwt'       => $jwt->gerarJWT(),
                     'dados'     => $obj
                 ]));
             }else {

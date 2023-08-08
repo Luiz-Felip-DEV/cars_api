@@ -3,6 +3,22 @@
     include_once 'vendor/autoload.php';
 
     $person = new functions;
+    $jwt    = new JWT;
+
+    $authorizationr     = $_SERVER['HTTP_AUTHORIZATION'];
+
+    if (empty($authorizationr))
+    {
+        die($person->createResponse(ACCESS_DENIED, TOKEN_NOT_FOUND, ''));
+    }
+
+    $arrToken           = explode(' ', $authorizationr);
+    $token              = $arrToken[1];
+
+    if (!$jwt->validateJWT($token))
+    {
+        die($person->createResponse(ACCESS_DENIED, TOKEN_NOT_FOUND, ''));
+    }
 
     if ($acao == '' && $param == ''){
         die($result = $person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND,''));

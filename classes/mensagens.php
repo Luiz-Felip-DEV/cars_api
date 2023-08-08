@@ -13,6 +13,8 @@
     define('JWT_SUCCESS',               'Token Gerado com Sucesso!');
     define('JWT_KEY',                   'cHJvamVjdF9jYXJzIzIwMjMjaW50ZWdyYXJfYXBpMjAyMzAxNTY5NGF1dGhvcjojbHVpeiBmZWxpcGU=');
 
+    // define('JWT_KEY',       'TESTE12341341421');
+
     
     //ERROR
     define('CARS_NOT_FOUND',                'Carros Não Encontrados!');
@@ -32,6 +34,7 @@
     define('ERROR_GET',                     'Erro ao Buscar!');
     define('NOTHING_FOUND',                 'Erro ao Deletar, Nada Encontrado!');
     define('ACTION_NOT_FOUND',               'Erro Ação não Encontrada!');
+    define('TOKEN_NOT_FOUND',                'Token não Encontrado!');
     
 
     //COD ERROR/SUCCESS
@@ -41,6 +44,7 @@
     define('REPEATED_DATA_BANK',    501);
     define('COD_ERROR_PARAMETERS',  400);
     define('COD_ERROR_FOUND',       404);
+    define('ACCESS_DENIED',        403);
 
 
 

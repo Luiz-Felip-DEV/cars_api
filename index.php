@@ -35,13 +35,13 @@ if (isset($path[2])) {
 
 
 
-$method = $_SERVER['REQUEST_METHOD'];
+$method = $_SERVER['REQUEST_METHOD']; 
 
 include_once 'classes/db.class.php';
 include_once 'api/clientes/clientes.php';
 include_once 'api/carros/carros.php';
+include_once 'api/dev/dev.php';
 
-// teste estou aqui
-// teste estou aqui
+
 
 ?>
