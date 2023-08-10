@@ -12,8 +12,6 @@
     switch ($acao)
     {
         case 'user':
-            break;
-        case 'login':
             break;  
         default:
             die($result = $person->createResponse(COD_ERROR_FOUND, ACTION_NOT_FOUND, ''));
@@ -50,44 +48,6 @@
             ]));
         }
         
-    }
-
-    if ($acao == 'login')
-    {
-        if (!isset($_GET['hash']))
-            {
-                die($result = $person->createResponse(COD_ERROR, WRONG_PARAMETERS,[
-                    ''
-                ]));
-            }
-            
-        $arrParams = explode('#',base64_decode($_GET['hash']));
-
-        $email      = $arrParams[0];
-        $password   = $arrParams[1];
-        
-        $db = DB::connect();
-        $rs = $db->prepare("SELECT * FROM users WHERE email = '$email' AND password = '$password' ");
-        try {
-            $rs->execute();
-            $obj = $rs->fetchObject();  
-
-            if ($obj) 
-            {
-                die($result = $person->createResponse(COD_SUCCESS, LOGIN_SUCCESS,[
-                    'jwt'       => $jwt->gerarJWT(),
-                    'dados'     => $obj
-                ]));
-            }else {
-                die($result = $person->createResponse(COD_ERROR_BD, LOGIN_UNAUTHORIZED,[
-                    ''
-                ]));
-            }
-        } catch (Exception $e) {
-            die($result = $person->createResponse(COD_ERROR, ERROR_SEARCH_DATA,[
-                'ERROR' => $e->getMessage()
-            ]));
-        }
     }
 
 ?>

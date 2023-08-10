@@ -35,6 +35,7 @@
     define('NOTHING_FOUND',                 'Erro ao Deletar, Nada Encontrado!');
     define('ACTION_NOT_FOUND',               'Erro Ação não Encontrada!');
     define('TOKEN_NOT_FOUND',                'Token não Encontrado!');
+    define('AGE_NOT_ALLOWED',                'Idade Insuficiente, Usuario tem Menos de 18 anos');
     
 
     //COD ERROR/SUCCESS

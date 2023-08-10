@@ -18,6 +18,7 @@
                 'iss' => 'localhost',
                 'aud' => 'localhost',
                 'exp' => $duracao,
+                'key' =>  uniqid()
             ];
             $payload = json_encode($payload);
             $payload = base64_encode($payload);

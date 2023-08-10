@@ -71,6 +71,27 @@
             return true;
         }
 
+        public function verifyAge($userBirthdate)
+        {
+            $yearFormated       = str_replace('-', '', $userBirthdate);
+            $userBirthdate      = $yearFormated; 
+            $formattedBirthdate = date_create_from_format('Ymd', $userBirthdate)->format('Y-m-d');
+        
+            $birthDateObj = date_create($formattedBirthdate);
+            $currentDateObj = date_create();
+        
+            $interval = date_diff($birthDateObj, $currentDateObj);
+        
+            $age = $interval->format('%y');
+            
+            if ($age < 18)
+            {
+                return false;
+            }
+            return true;
+    
+        }
+
     }
 
 ?>

@@ -30,6 +30,8 @@
     {
         case 'insert':
             break;
+        case 'login':
+            break;
         default:
             die($result = $person->createResponse(COD_ERROR_FOUND, ACTION_NOT_FOUND, ''));
     }
@@ -67,6 +69,11 @@
             die($result = $person->createResponse(REPEATED_DATA_BANK, TELEPHONE_IS_ALREADY_DATABASE, ''));
         }
 
+        if (!$person->verifyAge($birth_date))
+        {
+            die($result = $person->createResponse(REPEATED_DATA_BANK, AGE_NOT_ALLOWED, ''));
+        } 
+
         $data = date("Y-m-d", strtotime($birth_date)); 
 
         $rs         = $db->prepare("INSERT INTO users (name, last_name, birth_date, email, password, telephone) VALUES ('$name', '$last_name', '$data', '$email', '$password', '$telephone')");
@@ -96,6 +103,42 @@
             ]));
         }   
 
+    }
+
+    if ($acao == 'login')
+    {
+        $data = $_POST;
+
+        if (!$data)
+        {
+           $data = json_decode(file_get_contents('php://input'), true); 
+        }
+
+        $email      = $data['email'];
+        $password   = $data['password'];
+        
+        $db = DB::connect();
+        $rs = $db->prepare("SELECT * FROM users WHERE email = '$email' AND password = '$password' ");
+        try {
+            $rs->execute();
+            $obj = $rs->fetchObject();  
+
+            if ($obj) 
+            {
+                die($result = $person->createResponse(COD_SUCCESS, LOGIN_SUCCESS,[
+                    'jwt'       => $jwt->gerarJWT(),
+                    'dados'     => $obj
+                ]));
+            }else {
+                die($result = $person->createResponse(COD_ERROR_BD, LOGIN_UNAUTHORIZED,[
+                    ''
+                ]));
+            }
+        } catch (Exception $e) {
+            die($result = $person->createResponse(COD_ERROR, ERROR_SEARCH_DATA,[
+                'ERROR' => $e->getMessage()
+            ]));
+        }
     }
 
 
