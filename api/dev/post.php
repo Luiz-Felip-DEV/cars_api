@@ -8,7 +8,7 @@ $jwt    = new JWT;
 
     if ($acao == '' && $param == ''){
 
-        die($result = $person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND, ''));
+        die($person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND, ''));
     }
 
     switch ($acao)
@@ -16,7 +16,7 @@ $jwt    = new JWT;
         case 'BRING-JWT-TOKEN':
             break;  
         default:
-            die($result = $person->createResponse(COD_ERROR_FOUND, ACTION_NOT_FOUND, ''));
+            die($person->createResponse(COD_ERROR_FOUND, ACTION_NOT_FOUND, ''));
     }
 
     if ($acao == 'BRING-JWT-TOKEN')
@@ -25,7 +25,7 @@ $jwt    = new JWT;
             "jwt" => $jwt->gerarJWT()
         ];
 
-        die($result = $person->createResponse(COD_SUCCESS, JWT_SUCCESS, $dados));
+        die($person->createResponse(COD_SUCCESS, JWT_SUCCESS, $dados));
     }      
 
 ?>

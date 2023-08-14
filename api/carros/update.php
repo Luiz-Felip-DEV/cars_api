@@ -21,7 +21,7 @@
     }
 
     if ($acao == '' && $param == ''){
-        die($result = $person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND,''));
+        die($person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND,''));
     }
 
     switch ($acao)
@@ -31,7 +31,7 @@
         case 'update-status':
             break;
         default:
-            die($result = $person->createResponse(COD_ERROR_FOUND, ACTION_NOT_FOUND, ''));
+            die($person->createResponse(COD_ERROR_FOUND, ACTION_NOT_FOUND, ''));
     }
 
 
@@ -40,7 +40,7 @@
         {
             if (!isset($_REQUEST['hash']))
             {
-                die($result = $person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
+                die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
                     ''
                 ]));
             }
@@ -62,17 +62,17 @@
                         'price'     => $arrParams[4],
                         'status'    => $arrParams[5]
                     ];
-                    die($result = $person->createResponse(COD_SUCCESS, UPDATED_DATA,[
+                    die($person->createResponse(COD_SUCCESS, UPDATED_DATA,[
                         'dados' => $dados
                     ])); 
                 } else {
-                    die($result = $person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
+                    die($person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
                         ''
                     ])); 
                 }
 
             }catch (Exception $e) {
-                die($result = $person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
+                die($person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
                     'ERROR' => $e->getMessage()
                 ]));
             }
@@ -83,7 +83,7 @@
         {
             if (!isset($_REQUEST['hash']))
             {
-                die($result = $person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
+                die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
                     ''
                 ]));
             }
@@ -101,17 +101,17 @@
                         'id'        => $arrParams[0],
                         'status'    => $arrParams[1]
                     ];
-                    die($result = $person->createResponse(COD_SUCCESS, UPDATED_DATA,[
+                    die($person->createResponse(COD_SUCCESS, UPDATED_DATA,[
                         'dados' => $dados
                     ])); 
                 } else {
-                    die($result = $person->createResponse(COD_ERROR_BD, UPDATED_UNAUTHORIZED,[
+                    die($person->createResponse(COD_ERROR_BD, UPDATED_UNAUTHORIZED,[
                         'dados' => $dados
                     ]));
                 }
 
             } catch (Exception $e) {
-                die($result = $person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
+                die($person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
                     'ERROR' => $e->getMessage()
                 ]));
             }

@@ -5,7 +5,7 @@
     $person = new functions; 
 
     if ($acao == '' && $param == ''){
-        die($result = $person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND, ''));
+        die($person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND, ''));
     }
 
     switch ($acao)
@@ -17,7 +17,7 @@
         case 'car-id':
             break;  
         default:
-            die($result = $person->createResponse(COD_ERROR_FOUND, ACTION_NOT_FOUND, ''));
+            die($person->createResponse(COD_ERROR_FOUND, ACTION_NOT_FOUND, ''));
     }
 
     if ($acao == 'cars')
@@ -31,16 +31,16 @@
 
             if ($obj)
             {
-                die($result = $person->createResponse(COD_SUCCESS, CARS_GET_SUCCESS,[
+                die($person->createResponse(COD_SUCCESS, CARS_GET_SUCCESS,[
                     'dados'     => $obj
                 ]));
             }else{
-                die($result = $person->createResponse(COD_ERROR_BD, ERROR_CAR_GET,[
+                die($person->createResponse(COD_ERROR_BD, ERROR_CAR_GET,[
                     ''
                 ]));
             }
         }catch (Exception $e) {
-            die($result = $person->createResponse(COD_ERROR, ERROR_SEARCH_DATA,[
+            die($person->createResponse(COD_ERROR, ERROR_SEARCH_DATA,[
                 'ERROR' => $e->getMessage()
             ]));
         }
@@ -51,7 +51,7 @@
     {
         if (!isset($_REQUEST['hash']))
         {
-            die($result = $person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS, ''));
+            die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS, ''));
         }
         
         $modelo = base64_decode($_REQUEST['hash']);
@@ -63,18 +63,18 @@
             $obj = $rs->fetchAll(PDO::FETCH_ASSOC);
             if ($obj)
             {
-                die($result = $person->createResponse(COD_SUCCESS, CARS_GET_SUCCESS,[
+                die($person->createResponse(COD_SUCCESS, CARS_GET_SUCCESS,[
                     'dados'     => $obj
                 ]));
             }else{
-                die($result = $person->createResponse(COD_ERROR_BD, CARS_NOT_FOUND,[
+                die($person->createResponse(COD_ERROR_BD, CARS_NOT_FOUND,[
                     ''
                 ]));
             }
 
         }catch (Exception $e) {
 
-            die($result = $person->createResponse(COD_ERROR, ERROR_SEARCH_DATA,[
+            die($person->createResponse(COD_ERROR, ERROR_SEARCH_DATA,[
                 'ERROR' => $e->getMessage()
             ]));
         }
@@ -86,7 +86,7 @@
 
         if (!isset($_REQUEST['hash']))
         {
-            die($result = $person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS, ''));
+            die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS, ''));
         }
 
         $id = base64_decode($_REQUEST['hash']);
@@ -99,18 +99,18 @@
             $obj = $rs->fetchObject();
 
             if ($obj) {
-                die($result = $person->createResponse(COD_SUCCESS, CAR_SUCCESS,[
+                die($person->createResponse(COD_SUCCESS, CAR_SUCCESS,[
                     'dados'     => $obj
                 ]));
                 
             } else {
-                die($result = $person->createResponse(COD_ERROR_BD, CAR_NOT_FOUND,[
+                die($person->createResponse(COD_ERROR_BD, CAR_NOT_FOUND,[
                     ''
                 ]));
             }
 
         }catch (Exception $e) {
-            die($result = $person->createResponse(COD_ERROR, ERROR_SEARCH_DATA,[
+            die($person->createResponse(COD_ERROR, ERROR_SEARCH_DATA,[
                 'ERROR' => $e->getMessage()
             ]));
         }

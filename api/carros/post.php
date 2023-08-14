@@ -7,7 +7,7 @@
 
     if ($acao == '' && $param == ''){
         
-        die($result = $person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND,[
+        die($person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND,[
             ''
         ]));
     }
@@ -17,7 +17,7 @@
         case 'insert':
             break; 
         default:
-            die($result = $person->createResponse(COD_ERROR_FOUND, ACTION_NOT_FOUND, ''));
+            die($person->createResponse(COD_ERROR_FOUND, ACTION_NOT_FOUND, ''));
     }
 
     if ($acao == 'insert')
@@ -32,7 +32,7 @@
 
         if (!$person->allFieldsFilled($data) || !$data)
         {
-            die($result = $person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
+            die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
                         ''              ]));
             
         }
@@ -61,11 +61,11 @@
                 'status'    => $status
             ];
 
-            die($result = $person->createResponse(COD_SUCCESS,CAR_INSERTED ,[
+            die($person->createResponse(COD_SUCCESS,CAR_INSERTED ,[
                 'dados' => $dados
             ]));
         }catch (Exception $e){
-            die($result = $person->createResponse(COD_ERROR, ERROR_CAR_INSERTED ,[
+            die($person->createResponse(COD_ERROR, ERROR_CAR_INSERTED ,[
                 'ERROR' => $e->getMessage()
             ]));
         }

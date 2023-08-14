@@ -21,7 +21,7 @@
     }
 
     if ($acao == '' && $param == ''){
-        die($result = $person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND, ''));
+        die($person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND, ''));
     }
 
     switch ($acao)
@@ -35,7 +35,7 @@
         case 'update-email':
             break;  
         default:
-            die($result = $person->createResponse(COD_ERROR_FOUND, ACTION_NOT_FOUND, ''));
+            die($person->createResponse(COD_ERROR_FOUND, ACTION_NOT_FOUND, ''));
     }
 
 
@@ -74,16 +74,16 @@
                         'telefone'      => $telephone
                     ];
 
-                    die($result = $person->createResponse(COD_SUCCESS, UPDATED_DATA,[
+                    die($person->createResponse(COD_SUCCESS, UPDATED_DATA,[
                         'dados' => $dados
                     ]));
                     
                 } else {
-                    die($result = $person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,''));
+                    die($person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,''));
                 }
 
             } catch (Exception $e) {
-                die($result = $person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
+                die($person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
                     'ERROR' => $e->getMessage()
                 ]));
             }
@@ -102,7 +102,7 @@
 
             if (!$person->allFieldsFilled($data) || !$data)
             {
-                die($result = $person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
+                die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
                     ''
                 ]));
             }
@@ -119,13 +119,13 @@
                 $rs->execute();
 
                 if ($rs->rowCount() > 0) {
-                    die($result = $person->createResponse(COD_SUCCESS, UPDATED_DATA, ''));
+                    die($person->createResponse(COD_SUCCESS, UPDATED_DATA, ''));
                 }else{
-                    die($result = $person->createResponse(COD_ERROR_BD, UPDATED_UNAUTHORIZED, ''));
+                    die($person->createResponse(COD_ERROR_BD, UPDATED_UNAUTHORIZED, ''));
                 }
                     
             }catch (Exception $e) {
-                die($result = $person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
+                die($person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
                     'ERROR' => $e->getMessage()
                 ]));
             }
@@ -142,7 +142,7 @@
 
             if (!$person->allFieldsFilled($data) || !$data)
             {
-                die($result = $person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
+                die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
                     ''
                 ]));
             }
@@ -158,13 +158,13 @@
                 $rs->execute();
 
                 if ($rs->rowCount() > 0) {
-                    die($result = $person->createResponse(COD_SUCCESS, UPDATED_DATA, ''));
+                    die($person->createResponse(COD_SUCCESS, UPDATED_DATA, ''));
                 }else{
-                    die($result = $person->createResponse(COD_ERROR_BD, UPDATED_UNAUTHORIZED, ''));
+                    die($person->createResponse(COD_ERROR_BD, UPDATED_UNAUTHORIZED, ''));
                 }
                     
             }catch (Exception $e) {
-                die($result = $person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
+                die($person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
                     'ERROR' => $e->getMessage()
                 ]));
             }
@@ -182,7 +182,7 @@
 
             if (!$person->allFieldsFilled($data) || !$data)
             {
-                die($result = $person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
+                die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
                     ''
                 ]));
             }
@@ -198,13 +198,13 @@
                 $rs->execute();
 
                 if ($rs->rowCount() > 0) {
-                    die($result = $person->createResponse(COD_SUCCESS, UPDATED_DATA, ''));
+                    die($person->createResponse(COD_SUCCESS, UPDATED_DATA, ''));
                 }else{
-                    die($result = $person->createResponse(COD_ERROR_BD, UPDATED_UNAUTHORIZED, ''));
+                    die($person->createResponse(COD_ERROR_BD, UPDATED_UNAUTHORIZED, ''));
                 }
                     
             }catch (Exception $e) {
-                die($result = $person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
+                die($person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
                     'ERROR' => $e->getMessage()
                 ]));
             }

@@ -77,12 +77,12 @@
             $userBirthdate      = $yearFormated; 
             $formattedBirthdate = date_create_from_format('Ymd', $userBirthdate)->format('Y-m-d');
         
-            $birthDateObj = date_create($formattedBirthdate);
-            $currentDateObj = date_create();
+            $birthDateObj       = date_create($formattedBirthdate);
+            $currentDateObj     = date_create();
         
-            $interval = date_diff($birthDateObj, $currentDateObj);
+            $interval           = date_diff($birthDateObj, $currentDateObj);
         
-            $age = $interval->format('%y');
+            $age                = $interval->format('%y');
             
             if ($age < 18)
             {

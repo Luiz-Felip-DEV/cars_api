@@ -21,7 +21,7 @@
     }
 
     if ($acao == '' && $param == ''){
-        die($result = $person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND,''));
+        die($person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND,''));
     }
 
     switch ($acao)
@@ -29,14 +29,14 @@
         case 'delete':
             break;  
         default:
-            die($result = $person->createResponse(COD_ERROR_FOUND, ACTION_NOT_FOUND, ''));
+            die($person->createResponse(COD_ERROR_FOUND, ACTION_NOT_FOUND, ''));
     }
 
     if ($acao == 'delete' && $param == '')
     {
         if (!isset($_REQUEST['hash']))
         {
-            die($result = $person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,''));
+            die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,''));
         }
         
         $db         = DB::connect();
@@ -48,16 +48,16 @@
             $rs->execute();
             if ($rs->rowCount() > 0)
             {
-                die($result = $person->createResponse(COD_SUCCESS,DELETE_SUCCESS ,[
+                die($person->createResponse(COD_SUCCESS,DELETE_SUCCESS ,[
                     ''
                 ]));
             } else {
-                die($result = $person->createResponse(COD_ERROR_BD,NOTHING_FOUND ,[
+                die($person->createResponse(COD_ERROR_BD,NOTHING_FOUND ,[
                     ''
                 ]));
             }
         } catch (Exception $e) {
-            die($result = $person->createResponse(COD_ERROR,DELETE_UNAUTHORIZED ,[
+            die($person->createResponse(COD_ERROR,DELETE_UNAUTHORIZED ,[
                 'ERROR' => $e->getMessage()
             ]));
         }
