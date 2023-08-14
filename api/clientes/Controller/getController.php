@@ -3,7 +3,7 @@
     include_once 'vendor/autoload.php';
     
     $person = new functions;
-    $jwt    = new JWT; 
+    $model  = new getModel; 
 
     if ($acao == '' && $param == ''){
         die($person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND, ''));
@@ -25,28 +25,24 @@
         }
 
         $id = base64_decode($_GET['hash']);
-        $db = DB::connect();
-        $rs = $db->prepare("SELECT * FROM users WHERE id = '$id'");
+        
+        $arrResult = $model->getUser($id);
 
-        try {
-            $rs->execute();
-            $obj = $rs->fetchObject();
-
-            if ($obj)
+        if ($arrResult['STATUS'] == 'OK')
+        {
+            if ($arrResult['FOUND'] == 'TRUE')
             {
                 die($person->createResponse(COD_SUCCESS, USER_FOUND,[
-                    'dados'     => $obj
-                ]));
-            }else{
-                die($person->createResponse(COD_ERROR_BD, ERROR_USER_GET,[
-                    ''
+                    'dados'     => $arrResult['DADOS']
                 ]));
             }
-        }catch (Exception $e) {
-            die($person->createResponse(COD_ERROR, ERROR_SEARCH_DATA,[
-                'ERROR' => $e->getMessage()
-            ]));
+
+            die($person->createResponse(COD_ERROR_BD, ERROR_USER_GET, ''));
         }
+
+        die($person->createResponse(COD_ERROR, ERROR_SEARCH_DATA,[
+            'ERROR' => $arrResult['MSG']
+        ]));
         
     }
 

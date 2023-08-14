@@ -16,6 +16,21 @@
             return json_encode($response);
         }
 
+        public function createResponseLogin($status_code,$mensagem, $jwt,$resp){
+            http_response_code($status_code);
+    
+            header('Content-Type: application/json');
+    
+            $response = array (
+                'status_code'   => $status_code,
+                'msg'           => $mensagem,
+                'jwt'           => $jwt,
+                'result'        => $resp 
+            );
+    
+            return json_encode($response);
+        }
+
         public function formatedNumber($telefone)
         {
             $numeroSemFormatacao    = preg_replace("/[^0-9]/", "", $telefone);

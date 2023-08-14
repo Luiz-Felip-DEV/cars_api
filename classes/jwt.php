@@ -37,7 +37,8 @@
 
         public function validateJWT($token)
         {
-            $arrParams = explode('.', $token[1]);
+
+            $arrParams = explode('.', $token);
 
             $header     = $arrParams[0];
             $payload    = $arrParams[1];

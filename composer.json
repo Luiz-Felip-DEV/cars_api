@@ -4,10 +4,14 @@
         "files": [
             "classes/mensagens.php",
             "classes/functions.php",
-            "classes/jwt.php"
+            "classes/jwt.php",
+            "api/clientes/Model/postModel.php",
+            "api/clientes/Model/getModel.php",
+            "api/clientes/Model/updateModel.php"
         ],
         "psr-4": {
-           "classes\\":"classes"
+           "classes\\":"classes",
+           "Model\\":"Model"
         }
     },
     "authors": [
