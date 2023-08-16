@@ -3,7 +3,7 @@
     include_once 'vendor/autoload.php';
     
     $person = new functions;
-    $model  = new getModel; 
+    $model  = new getUserModel; 
 
     if ($acao == '' && $param == ''){
         die($person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND, ''));

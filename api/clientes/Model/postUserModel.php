@@ -2,7 +2,7 @@
 
 include_once 'vendor/autoload.php';
 
-    class postModel {
+    class postUserModel {
 
 
         public function insertUser(array $arrDados)

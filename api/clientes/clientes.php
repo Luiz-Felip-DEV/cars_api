@@ -4,22 +4,22 @@
     {
         if ($method == 'GET')
         {
-            include_once 'Controller/getController.php';
+            include_once 'Controller/getUserController.php';
         }
 
         if ($method == 'POST')
         {
-            include_once 'Controller/postController.php';
+            include_once 'Controller/postUserController.php';
         }
 
         if ($method == 'PUT')
         {
-            include_once 'Controller/updateController.php';
+            include_once 'Controller/updateUserController.php';
         }
 
         if ($method == 'DELETE')
         {
-            include_once 'Controller/deleteController.php';
+            include_once 'Controller/deleteUserController.php';
         }
     }
 

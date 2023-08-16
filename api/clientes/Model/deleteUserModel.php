@@ -2,36 +2,35 @@
 
 include_once 'vendor/autoload.php';
 
-    class getModel {
+    class deleteUserModel {
 
-        public function getUser($id)
+        public function deleteUser($id)
         {
-            $db = DB::connect();
 
-            $sql = "SELECT * FROM users
+            $db         = DB::connect();
+
+            $sql = "DELETE FROM users
                         WHERE id = '$id' ";
 
             $rs = $db->prepare($sql);
 
             try {
                 $rs->execute();
-                $obj = $rs->fetchObject();
 
-                if ($obj)
+                if ($rs->rowCount() > 0)
                 {
                     return [
                         'STATUS' => 'OK',
-                        'FOUND'  => 'TRUE',
-                        'DADOS'  => $obj
+                        'DELETE'  => 'TRUE'
                     ];
                 } else {
                     return [
                         'STATUS' => 'OK',
-                        'FOUND'  => 'FALSE'
+                        'DELETE'  => 'FALSE'
                     ];
                 }
 
-            }catch (Exception $e) {
+            } catch (Exception $e) {
                 return [
                     'STATUS' => 'NOK',
                     'MSG'  => $e->getMessage()

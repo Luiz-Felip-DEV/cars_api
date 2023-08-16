@@ -4,7 +4,7 @@
 
     $person = new functions;
     $jwt    = new JWT;
-    $model  = new postModel;
+    $model  = new postUserModel;
 
 
     if ($acao == '' && $param == ''){

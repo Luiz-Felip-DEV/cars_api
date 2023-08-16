@@ -22,6 +22,8 @@
 
     if ($acao == 'cars')
     {
+        echo "estou aqui";
+        exit;
         $db = DB::connect();
         $rs = $db->prepare("SELECT * FROM cars ORDER BY id");
 

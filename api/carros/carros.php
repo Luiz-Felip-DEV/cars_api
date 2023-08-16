@@ -4,22 +4,22 @@ if ($api == 'cars')
 {
     if ($method == 'GET')
     {
-        include_once 'get.php';
+        include_once 'Controller/getCarsController.php';
     }
 
     if ($method == 'POST')
     {
-        include_once 'post.php';
+        include_once 'Controller/postCarsController.php';
     }
 
     if ($method == 'PUT')
     {
-        include_once 'update.php';
+        include_once 'Controller/updateCarsController.php';
     }
 
     if ($method == 'DELETE')
     {
-        include_once 'delete.php';
+        include_once 'Controller/deleteCarsController.php';
     }
 }
 

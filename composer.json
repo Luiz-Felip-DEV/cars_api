@@ -1,25 +1,29 @@
 {
-    "name": "luiz.souza/sem-framework",
-    "autoload": {
-        "files": [
-            "classes/mensagens.php",
-            "classes/functions.php",
-            "classes/jwt.php",
-            "api/clientes/Model/postModel.php",
-            "api/clientes/Model/getModel.php",
-            "api/clientes/Model/updateModel.php",
-            "api/clientes/Model/deleteModel.php"
-        ],
-        "psr-4": {
-           "classes\\":"classes",
-           "Model\\":"Model"
-        }
-    },
-    "authors": [
-        {
-            "name": "luiz.souza",
-            "email": "luiz.martins@unitri.edu.br"
-        }
+  "name": "luiz.souza/sem-framework",
+  "autoload": {
+    "files": [
+      "classes/mensagens.php",
+      "classes/functions.php",
+      "classes/jwt.php",
+      "api/clientes/Model/postUserModel.php",
+      "api/clientes/Model/getUserModel.php",
+      "api/clientes/Model/updateUserModel.php",
+      "api/clientes/Model/deleteUserModel.php",
+      "api/carros/Model/postCarsModel.php",
+      "api/carros/Model/getCarsModel.php",
+      "api/carros/Model/updateCarsModel.php",
+      "api/carros/Model/deleteCarsModel.php"
     ],
-    "require": {}
+    "psr-4": {
+      "classes\\": "classes",
+      "Model\\": "Model"
+    }
+  },
+  "authors": [
+    {
+      "name": "luiz.souza",
+      "email": "luiz.martins@unitri.edu.br"
+    }
+  ],
+  "require": {}
 }

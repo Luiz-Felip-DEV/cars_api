@@ -2,7 +2,7 @@
 
 include_once 'vendor/autoload.php';
 
-    class updateModel {
+    class updateUserModel {
 
         public function update(array $arrDados)
         {
@@ -146,6 +146,54 @@ include_once 'vendor/autoload.php';
                 ];
             }
         }
+
+        public function updateTelephone(array $arrDados)
+        {
+            $db = DB::connect();
+
+            $id                 = $arrDados['id'];
+            $oldTelephone       = $arrDados['old_telephone'] ;    
+            $newTelephone       =  $arrDados['new_telephone'];
+
+            $dados = [
+                'id'            => $id,
+                'old_telephone' => $oldTelephone,
+                'new_telephone' => $newTelephone
+            ];
+
+            $sql = "UPDATE users SET
+                        telephone = '$newTelephone' WHERE id = '$id' AND password = '$oldTelephone'";
+
+            $rs = $db->prepare($sql);
+
+            try {
+                $rs->execute();
+
+                if ($rs->rowCount() > 0) {
+
+                    return [
+                        'STATUS' => 'OK',
+                        'UPDATE' => 'TRUE',
+                        'DADOS'  => $dados
+                    ];
+                }else{
+                    return [
+                        'STATUS' => 'OK',
+                        'UPDATE' => 'FALSE'
+                    ];
+                }
+            } catch (Exception $e) {
+                return [
+                    'STATUS' => 'NOK',
+                    'MSG'    => $e->getMessage()
+                ];
+            }
+            
+            
+        }
+        
+            
+        
     }
 
 ?>

@@ -4,7 +4,7 @@
 
     $person = new functions;
     $jwt    = new JWT;
-    $model  = new deleteModel;
+    $model  = new deleteUserModel;
 
     $authorizationr     = $_SERVER['HTTP_AUTHORIZATION'];
 
