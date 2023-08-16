@@ -55,8 +55,9 @@
             die($person->createResponse(REPEATED_DATA_BANK, AGE_NOT_ALLOWED, ''));
         } 
 
-        $data['birth_date'] = date("Y-m-d", strtotime($birth_date));
-        $data['telephone']  =  $telephone;
+        $arrData['birth_date'] = date("Y-m-d", strtotime($birth_date));
+        $arrData['telephone']  =  $telephone;
+    
 
         $arrResult = $model->insertUser($arrData);
 

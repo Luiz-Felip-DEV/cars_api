@@ -4,6 +4,7 @@
 
     $person = new functions;
     $jwt    = new JWT;
+    $model  = new deleteModel;
 
     $authorizationr     = $_SERVER['HTTP_AUTHORIZATION'];
 
@@ -38,29 +39,25 @@
         {
             die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,''));
         }
-        
-        $db         = DB::connect();
+    
         $id         = base64_decode($_REQUEST['hash']);
 
-        $rs         = $db->prepare("DELETE FROM users WHERE id = '$id'");
+        $arrResult  = $model->deleteUser($id);
 
-        try {
-            $rs->execute();
-            if ($rs->rowCount() > 0)
+        if ($arrResult['STATUS'] == 'OK')
+        {
+            if ($arrResult['DELETE'] == 'TRUE')
             {
-                die($person->createResponse(COD_SUCCESS,DELETE_SUCCESS ,[
-                    ''
-                ]));
-            } else {
-                die($person->createResponse(COD_ERROR_BD,NOTHING_FOUND ,[
-                    ''
-                ]));
+                die($person->createResponse(COD_SUCCESS,DELETE_SUCCESS, ''));
             }
-        } catch (Exception $e) {
-            die($person->createResponse(COD_ERROR,DELETE_UNAUTHORIZED ,[
-                'ERROR' => $e->getMessage()
-            ]));
+
+            die($person->createResponse(COD_ERROR_BD,NOTHING_FOUND, ''));
         }
+
+        die($person->createResponse(COD_ERROR,DELETE_UNAUTHORIZED ,[
+            'ERROR' => $arrResult['MSG']
+        ]));
+
     }
 
 ?>

@@ -7,7 +7,8 @@
             "classes/jwt.php",
             "api/clientes/Model/postModel.php",
             "api/clientes/Model/getModel.php",
-            "api/clientes/Model/updateModel.php"
+            "api/clientes/Model/updateModel.php",
+            "api/clientes/Model/deleteModel.php"
         ],
         "psr-4": {
            "classes\\":"classes",

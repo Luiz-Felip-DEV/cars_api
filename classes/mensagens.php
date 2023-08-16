@@ -13,8 +13,6 @@
     define('JWT_SUCCESS',               'Token Gerado com Sucesso!');
     define('JWT_KEY',                   'cHJvamVjdF9jYXJzIzIwMjMjaW50ZWdyYXJfYXBpMjAyMzAxNTY5NGF1dGhvcjojbHVpeiBmZWxpcGU=');
 
-    // define('JWT_KEY',       'TESTE12341341421');
-
     
     //ERROR
     define('CARS_NOT_FOUND',                'Carros Não Encontrados!');
