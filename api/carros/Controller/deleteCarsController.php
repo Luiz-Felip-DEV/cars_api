@@ -3,6 +3,7 @@
     include_once 'vendor/autoload.php';
 
     $person = new functions;
+    $model  = new deleteCarsModel;
 
     if ($acao == '' && $param == ''){
         die($person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND, ''));
@@ -23,26 +24,23 @@
             die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS, ''));
         }
         
-        $db         = DB::connect();
-        $hash       = base64_decode($_REQUEST['hash']);
+        $id       = base64_decode($_REQUEST['hash']);
 
-        $rs         = $db->prepare("DELETE FROM cars WHERE id = '$hash'");
+        $arrResult = $model->deleteCar($id);
 
-        try {
-            $rs->execute();
-
-            if ($rs->rowCount() > 0)
+        if ($arrResult['STATUS'] == 'OK')
+        {
+            if ($arrResult['DELETE'] == 'TRUE')
             {
                 die($person->createResponse(COD_SUCCESS,DELETE_SUCCESS ,''));
-            } else {
-                die($person->createResponse(COD_ERROR_BD,NOTHING_FOUND, ''));
             }
 
-        }catch (Exception $e) {
-            die($person->createResponse(COD_ERROR,DELETE_UNAUTHORIZED ,[
-                'ERROR' => $e->getMessage()
-            ]));
+            die($person->createResponse(COD_ERROR_BD,NOTHING_FOUND, ''));
         }
+
+        die($person->createResponse(COD_ERROR,DELETE_UNAUTHORIZED ,[
+            'ERROR' => $arrResult['MSG']
+        ]));
 
     }
 

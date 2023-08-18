@@ -4,6 +4,7 @@
     
     $person = new functions;
     $jwt    = new JWT;
+    $model  = new updateCarsModel;
 
     $authorizationr     = $_SERVER['HTTP_AUTHORIZATION'];
 
@@ -38,83 +39,84 @@
 
     if ($acao == 'update')
         {
-            if (!isset($_REQUEST['hash']))
+            $arrData = json_decode(file_get_contents('php://input'), true);
+
+            if (!$arrData)
             {
-                die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
-                    ''
-                ]));
+                $arrData = $_REQUEST;
             }
-            $arrParams = explode('#', base64_decode($_REQUEST['hash']));
-        
-            $db = DB::connect();
-            $rs = $db->prepare("UPDATE cars SET name = '$arrParams[1]',brand = '$arrParams[2]', year = '$arrParams[3]', price = '$arrParams[4]', status = '$arrParams[5]' WHERE id = '$arrParams[0]'");
 
-            try {
-                $rs->execute();
+            if (!$person->allFieldsFilled($arrData) || !$arrData)
+            {
+                die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,'')); 
+            }
 
-                if ($rs->rowCount() > 0)
+            if (str_contains($arrData['price'], '.'))
+            {
+                $arrData['price'] = str_replace(".", "", $arrData['price']);
+            }
+
+            if (str_contains($arrData['price'], ','))
+            {
+                $arrData['price'] = str_replace(",", "", $arrData['price']);
+            }
+
+            if (empty($arrData['id']))
+            {
+                die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,''));
+            }
+
+            $arrResult = $model->updateCar($arrData);
+            
+            if ($arrResult['STATUS'] == 'OK')
+            {
+                if ($arrResult['UPDATE'] == 'TRUE')
                 {
-                    $dados = [
-                        'id'        => $arrParams[0],
-                        'name'      => $arrParams[1],
-                        'brand'     => $arrParams[2],
-                        'year'      => $arrParams[3],
-                        'price'     => $arrParams[4],
-                        'status'    => $arrParams[5]
-                    ];
                     die($person->createResponse(COD_SUCCESS, UPDATED_DATA,[
-                        'dados' => $dados
-                    ])); 
-                } else {
-                    die($person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
-                        ''
-                    ])); 
+                        'dados' => $arrResult['DADOS']
+                    ]));
                 }
-
-            }catch (Exception $e) {
-                die($person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
-                    'ERROR' => $e->getMessage()
-                ]));
+                
+                die($person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,''));    
             }
+
+            die($person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
+                'ERROR' => $arrResult['MSG']
+            ]));
 
         }
 
         if ($acao == 'update-status')
         {
-            if (!isset($_REQUEST['hash']))
-            {
-                die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
-                    ''
-                ]));
-            }
-            $arrParams = explode('#', base64_decode($_REQUEST['hash']));
-        
-            $db = DB::connect();
-            $rs = $db->prepare("UPDATE users SET status = '$arrParams[1]' WHERE id = '$arrParams[0]'");
-         
-            try {
-                $rs->execute();
+            $arrData = json_decode(file_get_contents('php://input'), true);
 
-                if ($rs->rowCount() > 0)
+            if (!$arrData)
+            {
+                $arrData = $_REQUEST;
+            }
+
+            if (!$person->allFieldsFilled($arrData) || !$arrData)
+            {
+                die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,'')); 
+            }
+        
+            $arrResult = $model->updateStatus($arrData);
+
+            if ($arrResult['STATUS'] == 'OK')
+            {
+                if ($arrResult['UPDATE'] == 'TRUE')
                 {
-                    $dados =[
-                        'id'        => $arrParams[0],
-                        'status'    => $arrParams[1]
-                    ];
                     die($person->createResponse(COD_SUCCESS, UPDATED_DATA,[
-                        'dados' => $dados
-                    ])); 
-                } else {
-                    die($person->createResponse(COD_ERROR_BD, UPDATED_UNAUTHORIZED,[
-                        'dados' => $dados
+                        'dados' => $arrResult['DADOS']
                     ]));
                 }
 
-            } catch (Exception $e) {
-                die($person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
-                    'ERROR' => $e->getMessage()
-                ]));
+                die($person->createResponse(COD_ERROR_BD, UPDATED_UNAUTHORIZED,'')); 
             }
+
+            die($person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
+                'ERROR' => $arrResult['MSG']
+            ]));
 
         }
 ?>

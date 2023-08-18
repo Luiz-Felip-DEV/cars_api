@@ -11,10 +11,8 @@ class postCarsModel {
         $name   = ucwords($arrDados['name']);
         $brand  = ucwords($arrDados['brand']);
         $year   = $arrDados['year'];
-        $price  = $arrDados['price'];
-        $status = ucwords($arrDados['status']);
-
-        $price  = number_format($price, 2, ',', '.');   
+        $price  = number_format($arrDados['price'], 2, ',', '.');
+        $status = ucwords($arrDados['status']);  
         
         $sql = "INSERT INTO cars 
                         (name, brand, year, price, status)

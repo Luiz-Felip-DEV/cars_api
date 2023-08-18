@@ -2,7 +2,25 @@
 
     include_once 'vendor/autoload.php';
     
-    $person = new functions; 
+    $person = new functions;
+    $jwt    = new JWT; 
+    $model  = new getCarsModel;
+    
+    $authorizationr     = $_SERVER['HTTP_AUTHORIZATION'];
+
+    if (empty($authorizationr))
+    {
+        die($person->createResponse(ACCESS_DENIED, TOKEN_NOT_FOUND, ''));
+    }
+
+    $arrToken           = explode(' ', $authorizationr);
+
+    $token              = $arrToken[1];
+
+    if (!$jwt->validateJWT($token))
+    {
+        die($person->createResponse(ACCESS_DENIED, TOKEN_NOT_FOUND, ''));
+    }
 
     if ($acao == '' && $param == ''){
         die($person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND, ''));
@@ -22,30 +40,23 @@
 
     if ($acao == 'cars')
     {
-        echo "estou aqui";
-        exit;
-        $db = DB::connect();
-        $rs = $db->prepare("SELECT * FROM cars ORDER BY id");
+        $arrResult = $model->getCars();
 
-        try {
-            $rs->execute();
-            $obj = $rs->fetchAll(PDO::FETCH_ASSOC);
-
-            if ($obj)
+        if ($arrResult['STATUS'] == 'OK')
+        {
+            if ($arrResult['FOUND'] == 'TRUE')
             {
                 die($person->createResponse(COD_SUCCESS, CARS_GET_SUCCESS,[
-                    'dados'     => $obj
-                ]));
-            }else{
-                die($person->createResponse(COD_ERROR_BD, ERROR_CAR_GET,[
-                    ''
+                    'dados'     => $arrResult['DADOS']
                 ]));
             }
-        }catch (Exception $e) {
-            die($person->createResponse(COD_ERROR, ERROR_SEARCH_DATA,[
-                'ERROR' => $e->getMessage()
-            ]));
+            
+            die($person->createResponse(COD_ERROR_BD, ERROR_CAR_GET,''));
         }
+
+        die($person->createResponse(COD_ERROR, ERROR_SEARCH_DATA,[
+            'ERROR' => $arrResult['MSG']
+        ]));
         
     }
 
@@ -56,30 +67,26 @@
             die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS, ''));
         }
         
-        $modelo = base64_decode($_REQUEST['hash']);
-        $db     = DB::connect();
-        $rs     = $db->prepare("SELECT * FROM cars WHERE brand = '{$modelo}' ORDER BY id");
+        $brand  = base64_decode($_REQUEST['hash']);
 
-        try {
-            $rs->execute();
-            $obj = $rs->fetchAll(PDO::FETCH_ASSOC);
-            if ($obj)
+        $arrResult = $model->getCarsBrand($brand);
+
+        if ($arrResult['STATUS'] == 'OK')
+        {
+            if ($arrResult['FOUND'] == 'TRUE')
             {
                 die($person->createResponse(COD_SUCCESS, CARS_GET_SUCCESS,[
-                    'dados'     => $obj
-                ]));
-            }else{
-                die($person->createResponse(COD_ERROR_BD, CARS_NOT_FOUND,[
-                    ''
+                    'dados'     => $arrResult['DADOS']
                 ]));
             }
 
-        }catch (Exception $e) {
-
-            die($person->createResponse(COD_ERROR, ERROR_SEARCH_DATA,[
-                'ERROR' => $e->getMessage()
-            ]));
+            die($person->createResponse(COD_ERROR_BD, CARS_NOT_FOUND,''));
+            
         }
+
+        die($person->createResponse(COD_ERROR, ERROR_SEARCH_DATA,[
+            'ERROR' => $arrResult['MSG']
+        ]));
       
     }
     
@@ -94,7 +101,7 @@
         $id = base64_decode($_REQUEST['hash']);
 
         $db     = DB::connect();
-        $rs     = $db->prepare("SELECT * FROM cars WHERE id = '{$id}'");
+        $rs     = $db->prepare("SELECT * FROM cars WHERE id = '$id'");
 
         try {
             $rs->execute();

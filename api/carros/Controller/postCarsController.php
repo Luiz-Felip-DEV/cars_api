@@ -50,9 +50,17 @@
 
         if (!$person->allFieldsFilled($arrDados) || !$arrDados)
         {
-            die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
-                        ''              ]));
-            
+            die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,''));
+        }
+        
+        if (str_contains($arrDados['price'], '.'))
+        {
+            $arrDados['price'] = str_replace(".", "", $arrDados['price']);
+        }
+
+        if (str_contains($arrDados['price'], ','))
+        {
+            $arrDados['price'] = str_replace(",", "", $arrDados['price']);
         }
         
         $arrResult = $model->insertCar($arrDados);
