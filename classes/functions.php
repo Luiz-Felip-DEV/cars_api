@@ -104,7 +104,34 @@
                 return false;
             }
             return true;
-    
+        }
+
+        public function imgSave($nomeArquivo,$folder,$file)
+        {
+            if (!$nomeArquivo || !$file)
+            {
+                return false;
+            }
+
+            $caminho = $folder.'/'.$nomeArquivo;
+            if (file_put_contents($caminho, $file))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public function imgGet($caminho)
+        {
+            $hash = file_get_contents($caminho);
+            
+            if (!$hash)
+            {
+                return false;
+            }
+            
+            return $hash;
         }
 
     }
