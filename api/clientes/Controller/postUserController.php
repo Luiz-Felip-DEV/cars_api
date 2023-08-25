@@ -56,7 +56,7 @@
         } 
 
         $arrData['birth_date'] = date("Y-m-d", strtotime($birth_date));
-        $arrData['telephone']  =  $telephone;
+        $arrData['telephone']  = $telephone;
     
 
         $arrResult = $model->insertUser($arrData);

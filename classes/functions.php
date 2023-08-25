@@ -129,9 +129,20 @@
             if (!$hash)
             {
                 return false;
-            }
+            }   
             
             return $hash;
+        }
+
+        public function modifyHash($arrParams)
+        {
+            for($i = 0; $i < count($arrParams); $i++)
+            {
+                $arrParams[$i]['hash'] = $this->imgGet('img/'.$arrParams[$i]['path']);
+                unset($arrParams[$i]['path']);
+            }
+            
+            return $arrParams;
         }
 
     }

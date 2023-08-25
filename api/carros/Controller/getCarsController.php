@@ -67,7 +67,7 @@
             die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS, ''));
         }
         
-        $brand  = base64_decode($_REQUEST['hash']);
+        $brand  = ucwords(base64_decode($_REQUEST['hash']));
 
         $arrResult = $model->getCarsBrand($brand);
 

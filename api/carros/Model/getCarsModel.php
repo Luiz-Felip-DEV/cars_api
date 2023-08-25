@@ -40,7 +40,8 @@ class getCarsModel {
 
     public function getCarsBrand($brand)
     {
-        $db = DB::connect();
+        $db     = DB::connect();
+        $person = new functions;
 
         $brand = ucwords($brand);
 
@@ -53,13 +54,15 @@ class getCarsModel {
             
             $rs->execute();
             $arrReturnDados = $rs->fetchAll(PDO::FETCH_ASSOC);
-            
+
+            $result = $person->modifyHash($arrReturnDados);
+    
             if ($arrReturnDados)
             {
                 return [
                     'STATUS' => 'OK',
                     'FOUND'  => 'TRUE',
-                    'DADOS'  => $arrReturnDados
+                    'DADOS'  => $result
                 ];
             }
 
