@@ -40,7 +40,7 @@
         $email          = $arrData['email'];
         $telephone      = $person->formatedNumber($arrData['telephone']);
 
-        if (!$person->verifyEmail($email))
+        if ($person->verifyEmail($email))
         {
             die($person->createResponse(REPEATED_DATA_BANK, EMAIL_IS_ALREADY_DATABASE, ''));
         }
@@ -96,6 +96,12 @@
         }
 
         $email      = $arrData['email'];
+
+        if (!$person->verifyEmail($email))
+        {
+            die($person->createResponse(COD_ERROR_BD, EMAIL_NOT_EXISTS,''));
+        }
+
         $password   = $arrData['password'];
         
         $arrResult  = $model->loginUser($arrData);

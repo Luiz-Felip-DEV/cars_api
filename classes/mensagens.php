@@ -35,6 +35,7 @@
     define('TOKEN_NOT_FOUND',                'Token não Encontrado!');
     define('AGE_NOT_ALLOWED',                'Idade Insuficiente, Usuario tem Menos de 18 anos!');
     define('ID_NOT_EXISTS',                   'Usuario não Encontrado na Base de Dados!');
+    define('EMAIL_NOT_EXISTS',                'Email não Existe!');
     
 
     //COD ERROR/SUCCESS

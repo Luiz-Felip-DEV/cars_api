@@ -57,7 +57,7 @@
             $rs->execute();
             $obj = $rs->fetchAll();
             
-            $resp = (count($obj) !== 0) ? false : true;
+            $resp = (count($obj) !== 0) ? true : false;
 
             return $resp;
         }
