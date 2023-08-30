@@ -51,9 +51,8 @@ include_once 'vendor/autoload.php';
             $email      = $arrDados['email'];
             $password   = $arrDados['password'];
 
-            $sql = "SELECT * FROM users 
-                        WHERE email = '$email' AND
-                              password = '$password' ";
+            $sql = "SELECT * FROM users
+                        WHERE email = '$email'";
 
             $rs         = $db->prepare($sql);
 
@@ -63,13 +62,27 @@ include_once 'vendor/autoload.php';
                 $rs->execute();
                 $obj = $rs->fetchObject();
 
+                $obj->id            = base64_encode($obj->id);
+                $obj->birth_date    = base64_encode($obj->birth_date);
+                $obj->email         = base64_encode($obj->email);
+                $obj->telephone     = base64_encode($obj->telephone);
+                $obj->date_register = base64_encode($obj->date_register);
+                
                 if ($obj)
                 {
-                    $arrUser = [
-                        'STATUS' => 'OK',
-                        'AUTHORIZATION' => 'TRUE',
-                        'DADOS' => $obj
-                    ];
+                    if (password_verify($password, $obj->password))
+                    {
+                        $arrUser = [
+                            'STATUS' => 'OK',
+                            'AUTHORIZATION' => 'TRUE',
+                            'DADOS' => $obj
+                        ];
+                    } else {
+                        $arrUser = [
+                            'STATUS' => 'OK',
+                            'AUTHORIZATION' => 'FALSE'
+                        ];
+                    }
                 } else {
                     $arrUser = [
                         'STATUS' => 'OK',

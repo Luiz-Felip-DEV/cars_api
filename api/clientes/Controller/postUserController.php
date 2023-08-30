@@ -57,7 +57,7 @@
 
         $arrData['birth_date'] = date("Y-m-d", strtotime($birth_date));
         $arrData['telephone']  = $telephone;
-    
+        $arrData['password']   = password_hash($arrData['password'], PASSWORD_DEFAULT);
 
         $arrResult = $model->insertUser($arrData);
 
@@ -68,7 +68,7 @@
                 'id'            => $arrResult['id'],
                 'name'          => $arrResult['name'],
                 'last_name'     => $arrResult['last_name'],
-                'dt_nascimento' => $arrResult['birth_date'],
+                'birth_date'    => $arrResult['birth_date'],
                 'email'         => $arrResult['email'],
                 'password'      => $arrResult['password'],
                 'telephone'     => $arrResult['telephone']
