@@ -2,7 +2,7 @@
 
     class jwt {
 
-        public function gerarJWT()
+        public function gerarJWT($id)
         {
             
             $header = [
@@ -15,10 +15,11 @@
             $duracao = time() + (24 * 60 * 60);
         
             $payload = [
-                'iss' => 'localhost',
-                'aud' => 'localhost',
-                'exp' => $duracao,
-                'key' =>  uniqid()
+                'iss'     => 'localhost',
+                'aud'     => 'localhost',
+                'exp'     => $duracao,
+                'id_user' => $id,
+                'key'     =>  uniqid()
             ];
             $payload = json_encode($payload);
             $payload = base64_encode($payload);
@@ -35,7 +36,7 @@
             return $JWT;
         }
 
-        public function validateJWT($token)
+        public function validateJWT($token, $id)
         {
 
             $arrParams = explode('.', $token);
@@ -55,7 +56,10 @@
 
                 if ($dados_token->exp > time())
                 {
-                    return true;
+                    if ($dados_token->id_user == $id)
+                    {
+                        return true;
+                    }
                 }
 
                 return false;

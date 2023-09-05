@@ -6,6 +6,21 @@
     $jwt    = new JWT;
     $model  = new postCarsModel;
 
+    $arrDados = $_POST;
+
+    if (!isset($arrDados['id_user']) || isset($arrDados['id_user']) && empty($arrDados['id_user']))
+    {
+        die($person->createResponse(COD_ERROR_FOUND, ID_USER_INVALID, ''));
+    }
+
+
+    if (!$arrDados)
+    {
+        $arrDados = json_decode(file_get_contents('php://input'), true);
+    }
+
+    $idUser = $arrDados['id_user'];
+
     $authorizationr     = $_SERVER['HTTP_AUTHORIZATION'];
 
     if (empty($authorizationr))
@@ -17,9 +32,9 @@
 
     $token              = $arrToken[1];
 
-    if (!$jwt->validateJWT($token))
+    if (!$jwt->validateJWT($token, $idUser))
     {
-        die($person->createResponse(ACCESS_DENIED, TOKEN_NOT_FOUND, ''));
+        die($person->createResponse(ACCESS_DENIED, TOKEN_INVALID, ''));
     }
 
 
@@ -40,13 +55,6 @@
 
     if ($acao == 'insert')
     {
-
-        $arrDados = $_POST;
-
-        if (!$arrDados)
-        {
-            $arrDados = json_decode(file_get_contents('php://input'), true);
-        }
 
         if (!$person->allFieldsFilled($arrDados) || !$arrDados)
         {

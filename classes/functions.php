@@ -145,6 +145,22 @@
             return $arrParams;
         }
 
+        public function replacesCursing($descricacao)
+        {
+            $withCursing = array(
+                'caralho', 'Caralho', 'CARALHO', 'karalho', 'Karalho', 'KARALHO', 'vai se fuder', 'Vai se fuder', 'Vai Se fuder', 'Vai se Fuder', 'VAI SE FUDER', 'vaisefuder', 'VAISEFUDER', 'vai se foder', 'Vai se foder', 'Vai Se foder', 'Vai Se Foder', 'VAI SE FODER', 'vaisefoder', 'VAISEFODER', 'fdp', 'FDP', 'porra', 'PORRA', 'Porra', 'viado', 'Viado', 'VIADO',
+            );
+
+            $noCursing = array(
+                '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***'
+            );
+
+            $phraseWithoutCursing = str_replace($withCursing, $noCursing, $descricacao);
+
+            return $phraseWithoutCursing;
+
+        }
+
     }
 
 ?>

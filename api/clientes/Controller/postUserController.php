@@ -110,7 +110,8 @@
         {
             if ($arrResult['AUTHORIZATION'] == 'TRUE')
             {
-                die($person->createResponseLogin(COD_SUCCESS, LOGIN_SUCCESS,$jwt->gerarJWT(),[
+                $id = base64_decode($arrResult['DADOS']->id);
+                die($person->createResponseLogin(COD_SUCCESS, LOGIN_SUCCESS,$jwt->gerarJWT($id),[
                     'dados'     => $arrResult['DADOS']
                 ]));
             } else {
