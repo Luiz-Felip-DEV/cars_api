@@ -38,6 +38,7 @@
     define('EMAIL_NOT_EXISTS',                'Email não Existe!');
     define('TOKEN_INVALID',                   'Token Invalido.');
     define('ID_USER_INVALID',                  'Id de Usuario Inválido.');
+    define('PASSWORD_INVALID',                 'Senha Inválida.');
     
 
     //COD ERROR/SUCCESS

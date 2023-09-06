@@ -6,18 +6,16 @@ include_once 'vendor/autoload.php';
 
         public function update(array $arrDados)
         {
-    
             $db = DB::connect();
 
-            $id         = (isset($arrDados['id']))                  ? $arrDados['id']         : $arrDados[0];
-            $name       = ucwords((isset($arrDados['name']))        ? $arrDados['name']       : $arrDados[1]); 
-            $lastName   = ucwords((isset($arrDados['last_name']))   ? $arrDados['last_name']  : $arrDados[2]);
-            $birthDate  = (isset($arrDados['birth_date']))          ? $arrDados['birth_date'] : $arrDados[3];
-            $email      = (isset($arrDados['email']))               ? $arrDados['email']      : $arrDados[4];
-            $password   = (isset($arrDados['password']))            ? $arrDados['password']   : $arrDados[5];
-
-            $telephone = isset($arrDados['telephone']) ? $arrDados['telephone']  : $arrDados[6];
-            $newDate    = date("Y-m-d", strtotime($birthDate));     
+            $id         = $arrDados['id_user'];
+            $name       = ucwords($arrDados['name']); 
+            $lastName   = ucwords($arrDados['last_name']);
+            $birthDate  = $arrDados['birth_date'];
+            $email      = $arrDados['email'];
+            $password   = $arrDados['password'];
+            $telephone  = $arrDados['telephone'];
+            $birthDate  = date("Y-m-d", strtotime($birthDate));     
 
             $sql = "UPDATE users SET 
                 name = '$name', last_name = '$lastName', birth_date = '$birthDate', email = '$email', password = '$password', telephone = '$telephone'
@@ -29,7 +27,7 @@ include_once 'vendor/autoload.php';
                 $rs->execute();
 
                 $dados = [
-                        'id'         => $id,
+                        'id_user'    => $id,
                         'name'       => $name,
                         'last_name'  => $lastName,
                         'birth_date' => $birthDate,
@@ -64,12 +62,12 @@ include_once 'vendor/autoload.php';
         {
             $db = DB::connect();
 
-            $id          = (isset($arrDados['id']))           ? $arrDados['id'] : $arrDados[0];
-            $oldPassword = (isset($arrDados['old_password'])) ? $arrDados['old_password'] : $arrDados[1];     
-            $newPassword = (isset($arrDados['new_password'])) ? $arrDados['new_password'] : $arrDados[2];
+            $id          = $arrDados['id_user'];
+            $oldPassword = $arrDados['old_password'];     
+            $newPassword = $arrDados['new_password'];
 
             $sql = "UPDATE users SET
-                        password = '$newPassword' WHERE id = '$id' AND password = '$oldPassword'";
+                        password = '$newPassword' WHERE id = '$id'";
             
             $rs = $db->prepare($sql);
 
@@ -77,7 +75,6 @@ include_once 'vendor/autoload.php';
                 $rs->execute();
 
                 $dados = [
-                    'id'           => $id,
                     'old_password' => $oldPassword,
                     'new_password' => $newPassword
                 ];
@@ -107,12 +104,11 @@ include_once 'vendor/autoload.php';
         {
             $db = DB::connect();
 
-            $id       = $arrDados['id'];
+            $id       = $arrDados['id_user'];
             $oldEmail = $arrDados['old_email'];
             $newEmail = $arrDados['new_email'];
 
             $dados = [
-                'id'          => $id,
                 'old_email'   => $oldEmail,
                 'new_email'   => $newEmail
             ];
@@ -151,18 +147,17 @@ include_once 'vendor/autoload.php';
         {
             $db = DB::connect();
 
-            $id                 = $arrDados['id'];
+            $id                 = $arrDados['id_user'];
             $oldTelephone       = $arrDados['old_telephone'] ;    
-            $newTelephone       =  $arrDados['new_telephone'];
+            $newTelephone       = $arrDados['new_telephone'];
 
             $dados = [
-                'id'            => $id,
                 'old_telephone' => $oldTelephone,
                 'new_telephone' => $newTelephone
             ];
 
             $sql = "UPDATE users SET
-                        telephone = '$newTelephone' WHERE id = '$id' AND password = '$oldTelephone'";
+                        telephone = '$newTelephone' WHERE id = '$id' AND telephone = '$oldTelephone'";
 
             $rs = $db->prepare($sql);
 
@@ -188,12 +183,7 @@ include_once 'vendor/autoload.php';
                     'MSG'    => $e->getMessage()
                 ];
             }
-            
-            
         }
-        
-            
-        
     }
 
 ?>

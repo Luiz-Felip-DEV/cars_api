@@ -65,7 +65,7 @@
         {
 
             $dados = [
-                'id'            => $arrResult['id'],
+                'id_user'       => $arrResult['id'],
                 'name'          => $arrResult['name'],
                 'last_name'     => $arrResult['last_name'],
                 'birth_date'    => $arrResult['birth_date'],

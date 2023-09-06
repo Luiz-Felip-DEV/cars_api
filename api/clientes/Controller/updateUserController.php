@@ -13,16 +13,29 @@
         die($person->createResponse(ACCESS_DENIED, TOKEN_NOT_FOUND, ''));
     }
 
-    $arrToken           = explode(' ', $authorizationr);
+    $arrData = $_REQUEST;
 
-    $token              = $arrToken[1];
-
-    if (!$jwt->validateJWT($token))
+    if (!$arrData)
     {
-        die($person->createResponse(ACCESS_DENIED, TOKEN_NOT_FOUND, ''));
+        $arrData = json_decode(file_get_contents('php://input'), true);
     }
 
-    if ($acao == '' && $param == ''){
+    if (!isset($arrData['id_user']) || isset($arrData['id_user']) && empty($arrData['id_user']))
+    {
+        die($person->createResponse(COD_ERROR_FOUND, ID_USER_INVALID, ''));
+    }
+
+    $idUser    = $arrData['id_user'];
+    $arrToken  = explode(' ', $authorizationr);
+    $token     = $arrToken[1];
+
+    if (!$jwt->validateJWT($token, $idUser))
+    {
+        die($person->createResponse(ACCESS_DENIED, TOKEN_INVALID, ''));
+    }
+
+    if ($acao == '' && $param == '')
+    {
         die($person->createResponse(COD_ERROR_FOUND, PATH_NOT_FOUND, ''));
     }
 
@@ -42,59 +55,53 @@
 
 
     if ($acao == 'update')
+    {
+        if (!$person->allFieldsFilled($arrData) || !$arrData)
         {
-
-            $arrData = json_decode(file_get_contents('php://input'), true);
-
-            if (!$arrData)
-            {
-                $arrData = $_REQUEST;
-            }
-
-            if (!$person->allFieldsFilled($arrData) || !$arrData)
-            {
-                die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,'')); 
-            }
-
-            $arrData['telephone'] = $person->formatedNumber($arrData['telephone']);
-               
-            $arrResult = $model->update($arrData);
-
-            if ($arrResult['STATUS'] == 'OK')
-            {
-                if ($arrResult['UPDATE'] == 'TRUE')
-                {
-                    die($person->createResponse(COD_SUCCESS, UPDATED_DATA,[
-                        'dados' => $arrResult['DADOS']
-                    ]));
-                }
-
-                die($person->createResponse(COD_ERROR, ID_NOT_EXISTS,''));          
-            }
-
-            die($person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
-                'ERROR' => $arrResult['MSG']
-            ]));
-
-
+            die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,'')); 
         }
+
+        $arrData['telephone'] = $person->formatedNumber($arrData['telephone']);
+            
+        $arrResult = $model->update($arrData);
+
+        if ($arrResult['STATUS'] == 'OK')
+        {
+            if ($arrResult['UPDATE'] == 'TRUE')
+            {
+                die($person->createResponse(COD_SUCCESS, UPDATED_DATA,[
+                    'dados' => $arrResult['DADOS']
+                ]));
+            }
+
+            die($person->createResponse(COD_ERROR, ID_NOT_EXISTS,''));          
+        }
+
+        die($person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
+            'ERROR' => $arrResult['MSG']
+        ]));
+
+
+    }
 
         if ($acao == 'update-password')
         {
-
-            $data = json_decode(file_get_contents('php://input'), true); 
-
-            if (!$data)
-            {
-                $data = $_REQUEST;
-            }
-
-            if (!$person->allFieldsFilled($data) || !$data)
+            if (!$person->allFieldsFilled($arrData) || !$arrData)
             {
                 die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,''));
             }
 
-            $arrResult = $model->updatePassword($data);
+            $oldPassword    = $person->bringPassword($idUser);
+            $verifyPassword = password_verify($arrData['old_password'], $oldPassword);
+
+           if (!$verifyPassword)
+           {
+                die($person->createResponse(COD_ERROR, PASSWORD_INVALID,''));
+           }
+
+            $arrData['new_password'] = password_hash($arrData['new_password'], PASSWORD_DEFAULT);
+
+            $arrResult = $model->updatePassword($arrData);
 
             if ($arrResult['STATUS'] == 'OK')
             {
@@ -114,21 +121,12 @@
 
         if ($acao == 'update-email')
         {
-            $data = json_decode(file_get_contents('php://input'), true); 
-
-            if (!$data)
+            if (!$person->allFieldsFilled($arrData) || !$arrData)
             {
-                $data = $_REQUEST;
+                die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,''));
             }
 
-            if (!$person->allFieldsFilled($data) || !$data)
-            {
-                die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
-                    ''
-                ]));
-            }
-
-            $arrResult = $model->updateEmail($data);
+            $arrResult = $model->updateEmail($arrData);
 
             if ($arrResult['STATUS'] == 'OK')
             {
@@ -147,42 +145,33 @@
 
         if ($acao == 'update-telephone')
         {
-
-            $data = json_decode(file_get_contents('php://input'), true); 
-
-            if (!$data)
+            if (!$person->allFieldsFilled($arrData) || !$arrData)
             {
-                $data = explode('#', base64_decode($_REQUEST['hash']));
+                die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,''));
             }
 
-            if (!$person->allFieldsFilled($data) || !$data)
+            $arrData['old_telephone'] = $person->formatedNumber($arrData['old_telephone']);
+            $arrData['new_telephone'] = $person->formatedNumber($arrData['new_telephone']);
+
+            if (!$person->verifyTelephone($arrData['new_telephone']))
             {
-                die($person->createResponse(COD_ERROR_PARAMETERS, WRONG_PARAMETERS,[
-                    ''
-                ]));
+                die($person->createResponse(COD_ERROR, TELEPHONE_IS_ALREADY_DATABASE, ''));
             }
 
-            $id                 = (isset($data['id']))            ? $data['id']            : $data[0];
-            $telephoneAnti      = (isset($data['old_telephone'])) ? $data['old_telephone'] : $data[1];     
-            $telephoneNovo      = (isset($data['new_telephone'])) ? $data['new_telephone'] : $data[2];
+            $arrResult = $model->updateTelephone($arrData);
 
-            $db = DB::connect();
-            $rs = $db->prepare("UPDATE users SET telephone = '$telephoneNovo' WHERE id = '$id' AND email = '$telephoneAnti' ");
-
-            try {
-                $rs->execute();
-
-                if ($rs->rowCount() > 0) {
-                    die($person->createResponse(COD_SUCCESS, UPDATED_DATA, ''));
-                }else{
-                    die($person->createResponse(COD_ERROR_BD, UPDATED_UNAUTHORIZED, ''));
+            if ($arrResult['STATUS'] == 'OK')
+            {
+                if ($arrResult['UPDATE'] == 'TRUE')
+                {
+                    die($person->createResponse(COD_SUCCESS, UPDATED_DATA, $arrResult['DADOS']));
                 }
-                    
-            }catch (Exception $e) {
-                die($person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
-                    'ERROR' => $e->getMessage()
-                ]));
+
+                die($person->createResponse(COD_ERROR_BD, UPDATED_UNAUTHORIZED, ''));
             }
 
+            die($person->createResponse(COD_ERROR, UPDATED_UNAUTHORIZED,[
+                'ERROR' => $arrResult['MSG']
+            ]));
         }
 ?>

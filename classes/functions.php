@@ -145,20 +145,29 @@
             return $arrParams;
         }
 
-        public function replacesCursing($descricacao)
+        // public function replacesCursing($descricacao)
+        // {
+        //     $withCursing = array(
+        //         'caralho', 'Caralho', 'CARALHO', 'karalho', 'Karalho', 'KARALHO', 'vai se fuder', 'Vai se fuder', 'Vai Se fuder', 'Vai se Fuder', 'VAI SE FUDER', 'vaisefuder', 'VAISEFUDER', 'vai se foder', 'Vai se foder', 'Vai Se foder', 'Vai Se Foder', 'VAI SE FODER', 'vaisefoder', 'VAISEFODER', 'fdp', 'FDP', 'porra', 'PORRA', 'Porra', 'viado', 'Viado', 'VIADO',
+        //     );
+
+        //     $noCursing = array(
+        //         '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***'
+        //     );
+
+        //     $phraseWithoutCursing = str_replace($withCursing, $noCursing, $descricacao);
+
+        //     return $phraseWithoutCursing;
+        // }
+
+        public function bringPassword($idUser)
         {
-            $withCursing = array(
-                'caralho', 'Caralho', 'CARALHO', 'karalho', 'Karalho', 'KARALHO', 'vai se fuder', 'Vai se fuder', 'Vai Se fuder', 'Vai se Fuder', 'VAI SE FUDER', 'vaisefuder', 'VAISEFUDER', 'vai se foder', 'Vai se foder', 'Vai Se foder', 'Vai Se Foder', 'VAI SE FODER', 'vaisefoder', 'VAISEFODER', 'fdp', 'FDP', 'porra', 'PORRA', 'Porra', 'viado', 'Viado', 'VIADO',
-            );
+            $db = DB::connect();
+            $rs = $db->prepare("SELECT password FROM users WHERE id = '$idUser'");
+            $rs->execute();
+            $obj = $rs->fetchObject();
 
-            $noCursing = array(
-                '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***', '***'
-            );
-
-            $phraseWithoutCursing = str_replace($withCursing, $noCursing, $descricacao);
-
-            return $phraseWithoutCursing;
-
+            return $obj->password;
         }
 
     }
